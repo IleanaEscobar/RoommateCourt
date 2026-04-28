@@ -24,6 +24,40 @@
 	color: #1d2b48;
 }
 
+.dashboard-success-banner {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 12px;
+	padding: 10px 12px;
+	border-radius: 8px;
+	background: #e9f7ee;
+	border: 1px solid #b8e2c6;
+	color: #1c6b3c;
+	font-weight: 600;
+	margin-bottom: 14px;
+}
+
+.dashboard-success-dismiss {
+	border: 1px solid #92cfaa;
+	border-radius: 6px;
+	padding: 6px 10px;
+	background: #ffffff;
+	color: #1c6b3c;
+	font-weight: 600;
+	cursor: pointer;
+}
+
+.dashboard-success-dismiss:hover {
+	background: #f2fff7;
+}
+
+.dashboard-actions {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: 12px;
+	margin-top: 24px;
 .dashboard-subtitle {
 	margin: 8px 0 24px;
 	color: #5a6a8a;
@@ -63,4 +97,123 @@
 
 .dashboard-back-button:hover {
 	background: #214fb5;
+}
+
+.household-modal-overlay {
+	position: fixed;
+	inset: 0;
+	background: rgba(16, 32, 63, 0.5);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 24px;
+	z-index: 1000;
+}
+
+.household-modal-card {
+	width: min(100%, 480px);
+	background: #ffffff;
+	border-radius: 12px;
+	padding: 24px;
+	box-shadow: 0 18px 40px rgba(12, 22, 44, 0.28);
+	border: 1px solid #dce5f8;
+}
+
+.household-modal-card h2 {
+	margin: 0;
+	font-size: 1.45rem;
+	color: #1d2b48;
+}
+
+.household-modal-card p {
+	margin: 10px 0 0;
+	color: #4b5b7c;
+}
+
+.household-modal-form {
+	margin-top: 18px;
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+
+.household-modal-form label {
+	font-weight: 600;
+	font-size: 0.95rem;
+	color: #2b3d5f;
+}
+
+.household-modal-form input,
+.household-modal-form select {
+	border: 1px solid #c8d4eb;
+	border-radius: 8px;
+	padding: 12px;
+	font-size: 1rem;
+	outline: none;
+	background: #ffffff;
+	transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.household-modal-form input:focus,
+.household-modal-form select:focus {
+	border-color: #4977e8;
+	box-shadow: 0 0 0 3px rgba(73, 119, 232, 0.15);
+}
+
+.household-modal-form button {
+	margin-top: 6px;
+	border: none;
+	border-radius: 8px;
+	padding: 12px;
+	font-size: 1rem;
+	font-weight: 600;
+	color: #ffffff;
+	background: #2b63df;
+	cursor: pointer;
+	transition: background-color 0.2s ease;
+}
+
+.household-modal-form button:hover:not(:disabled) {
+	background: #214fb5;
+}
+
+.household-modal-form button:disabled {
+	opacity: 0.7;
+	cursor: not-allowed;
+}
+
+.household-modal-error {
+	margin: 4px 0;
+	color: #b42318;
+	font-size: 0.92rem;
+}
+
+.household-modal-tabs {
+	display: flex;
+	border-bottom: 2px solid #e5ebf7;
+	margin-bottom: 18px;
+	margin-top: 16px;
+}
+
+.household-modal-tab {
+	flex: 1;
+	padding: 10px;
+	border: none;
+	background: none;
+	cursor: pointer;
+	font-size: 0.95rem;
+	font-weight: 600;
+	color: #4b5b7c;
+	border-bottom: 2px solid transparent;
+	margin-bottom: -2px;
+	transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.household-modal-tab.active {
+	color: #2b63df;
+	border-bottom-color: #2b63df;
+}
+
+.household-modal-tab:hover:not(.active) {
+	color: #2b3d5f;
 }

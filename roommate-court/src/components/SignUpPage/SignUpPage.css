@@ -50,7 +50,22 @@
 	transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
+.signup-form select {
+	border: 1px solid #c8d4eb;
+	border-radius: 8px;
+	padding: 12px;
+	font-size: 1rem;
+	outline: none;
+	background: #ffffff;
+	transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
 .signup-form input:focus {
+	border-color: #4977e8;
+	box-shadow: 0 0 0 3px rgba(73, 119, 232, 0.15);
+}
+
+.signup-form select:focus {
 	border-color: #4977e8;
 	box-shadow: 0 0 0 3px rgba(73, 119, 232, 0.15);
 }
