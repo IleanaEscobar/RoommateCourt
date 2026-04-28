@@ -4,8 +4,59 @@ import {
 	signInWithEmailAndPassword,
 	signInWithPopup
 } from 'firebase/auth';
-import { auth, googleProvider } from '../../firebase';
+import { get, ref, set, update } from 'firebase/database';
+import { auth, googleProvider, rtdb } from '../../firebase';
 import './LoginPage.css';
+
+function getAuthErrorMessage(firebaseError) {
+	const errorCode = firebaseError?.code || '';
+
+	if (errorCode === 'auth/popup-closed-by-user') {
+		return 'Google sign-in was canceled before completion.';
+	}
+
+	if (errorCode === 'auth/popup-blocked') {
+		return 'Google sign-in popup was blocked by your browser. Please allow popups and try again.';
+	}
+
+	if (errorCode === 'auth/account-exists-with-different-credential') {
+		return 'An account already exists with this email using a different sign-in method. Try logging in with email/password first.';
+	}
+
+	if (errorCode === 'auth/unauthorized-domain') {
+		return 'This domain is not authorized for Google sign-in in Firebase settings.';
+	}
+
+	return 'Unable to sign in with Google. Please try again.';
+}
+
+function deriveDisplayName(emailValue) {
+	const localPart = emailValue.split('@')[0] || 'Roommate';
+	if (!localPart) {
+		return 'Roommate';
+	}
+
+	return localPart.charAt(0).toUpperCase() + localPart.slice(1);
+}
+
+async function ensureUserProfile(user) {
+	const userRef = ref(rtdb, `users/${user.uid}`);
+	const existingProfile = await get(userRef);
+	const resolvedName = user.displayName || deriveDisplayName(user.email || '');
+
+	if (!existingProfile.exists()) {
+		await set(userRef, {
+			name: resolvedName,
+			households: {},
+			cases: {}
+		});
+		return;
+	}
+
+	await update(userRef, {
+		name: resolvedName
+	});
+}
 
 function LoginPage() {
 	const navigate = useNavigate();
@@ -25,6 +76,7 @@ function LoginPage() {
 				email.trim(),
 				password
 			);
+			await ensureUserProfile(userCredential.user);
 			navigate(`/dashboard/${userCredential.user.uid}`);
 		} catch (firebaseError) {
 			setError('Unable to sign in. Please check your email and password.');
@@ -39,9 +91,14 @@ function LoginPage() {
 
 		try {
 			const result = await signInWithPopup(auth, googleProvider);
+			try {
+				await ensureUserProfile(result.user);
+			} catch (profileError) {
+				console.error('Google sign-in profile sync failed:', profileError);
+			}
 			navigate(`/dashboard/${result.user.uid}`);
 		} catch (firebaseError) {
-			setError('Unable to sign in with Google. Please try again.');
+			setError(getAuthErrorMessage(firebaseError));
 		} finally {
 			setIsLoading(false);
 		}
