@@ -291,8 +291,13 @@ function Dashboard() {
 						Start Severe Case
 					</Link>
 				</div>
+				<h1>Roommate Court</h1>
+				<p className="dashboard-subtitle">Resolve disputes fairly, one case at a time.</p>
+				<button className="dashboard-file-case-btn" onClick={() => navigate('/case/new')}>
+					File a New Case
+				</button>
 				<Link to="/" className="dashboard-back-button">
-					Back to Login
+					Sign Out
 				</Link>
 			</div>
 		</div>

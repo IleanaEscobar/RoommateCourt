@@ -5,6 +5,10 @@ import LoginPage from './components/LoginPage/LoginPage';
 import SignUpPage from './components/SignUpPage/SignUpPage';
 import Dashboard from './components/Dashboard/Dashboard';
 import CaseSubmissionPage from './components/CaseSubmissionPage/CaseSubmissionPage';
+import CaseReview from './components/CaseReview/CaseReview';
+import WaitingRoom from './components/WaitingRoom/WaitingRoom';
+import OpenFloor from './components/OpenFloor/OpenFloor';
+import JuryVoting from './components/JuryVoting/JuryVoting';
 
 function App() {
   return (
@@ -36,7 +40,12 @@ function App() {
               <CaseSubmissionPage/>
             )}
           />
-        </Routes> 
+          <Route path="/case/new" element={<CaseReview/>} />
+          <Route path="/case/:caseId/review" element={<CaseReview/>} />
+          <Route path="/case/:caseId/waiting" element={<WaitingRoom/>} />
+          <Route path="/case/:caseId/floor" element={<OpenFloor/>} />
+          <Route path="/case/:caseId/voting" element={<JuryVoting/>} />
+        </Routes>
       </main>
     </BrowserRouter>
   </div>
