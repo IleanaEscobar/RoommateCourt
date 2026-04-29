@@ -16,30 +16,10 @@ function App() {
     <BrowserRouter>
       <main>
         <Routes>
-          <Route
-            path="/"
-            element={(
-              <Login/>
-            )}
-          />
-          <Route
-            path="/sign-up"
-            element={(
-              <SignUp/>
-            )}
-          />
-          <Route
-            path="/dashboard/:uid"
-            element={(
-              <Dashboard/>
-            )}
-          />
-          <Route
-            path="/dashboard/:uid/case-submission/:severity"
-            element={(
-              <CaseSubmission/>
-            )}
-          />
+          <Route path="/" element={(<Login/>)} />
+          <Route path="/sign-up" element={(<SignUp/>)} />
+          <Route path="/dashboard/:uid" element={(<Dashboard/>)} />
+          <Route path="/dashboard/:uid/case-submission/:severity" element={(<CaseSubmission/>)} />
           <Route path="/case/new" element={<CaseReview/>} />
           <Route path="/case/:caseId/review" element={<CaseReview/>} />
           <Route path="/case/:caseId/waiting" element={<WaitingRoom/>} />

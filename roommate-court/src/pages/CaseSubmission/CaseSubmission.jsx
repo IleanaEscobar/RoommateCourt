@@ -184,8 +184,9 @@ function CaseSubmission() {
 				<div className="case-submission-header">
 					<p className="case-severity-pill">{severityMeta.label}</p>
 					<h1>Submit a new roommate case</h1>
-					<p>{severityMeta.description}</p>
 				</div>
+
+				<p>{severityMeta.description}</p>
 
 				<form className="case-submission-form" onSubmit={handleSubmit}>
 					{questions.map((question, index) => {

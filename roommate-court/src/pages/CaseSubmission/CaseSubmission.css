@@ -37,7 +37,7 @@
 	max-width: 680px;
 	font-size: 1.05rem;
 	line-height: 1.7;
-	color: #5f4a35;
+	color: #fff9ef;
 }
 
 .case-severity-pill {
@@ -45,7 +45,7 @@
 	align-items: center;
 	padding: 8px 14px;
 	border-radius: 999px;
-	background: #2f5d50;
+	background: var(--color-secondary);
 	color: #fff9ef;
 	text-transform: uppercase;
 	letter-spacing: 0.08em;

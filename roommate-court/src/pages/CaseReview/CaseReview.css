@@ -195,14 +195,14 @@
 }
 
 .court-btn.primary {
-  background: var(--color-blue-primary);
+  background: #2f5d50;
   color: #ffffff;
   margin-top: 24px;
   width: 100%;
 }
 
 .court-btn.primary:hover {
-  background: #214fb5;
+  background: #2f5d50;
 }
 
 .court-btn.primary:disabled {
