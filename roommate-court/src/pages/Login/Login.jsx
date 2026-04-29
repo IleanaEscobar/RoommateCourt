@@ -1,19 +1,22 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { createUserWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
+import {
+	signInWithEmailAndPassword,
+	signInWithPopup
+} from 'firebase/auth';
 import { get, ref, set, update } from 'firebase/database';
 import { auth, googleProvider, rtdb } from '../../firebase';
-import './SignUpPage.css';
+import './Login.css';
 
 function getAuthErrorMessage(firebaseError) {
 	const errorCode = firebaseError?.code || '';
 
 	if (errorCode === 'auth/popup-closed-by-user') {
-		return 'Google sign-up was canceled before completion.';
+		return 'Google sign-in was canceled before completion.';
 	}
 
 	if (errorCode === 'auth/popup-blocked') {
-		return 'Google sign-up popup was blocked by your browser. Please allow popups and try again.';
+		return 'Google sign-in popup was blocked by your browser. Please allow popups and try again.';
 	}
 
 	if (errorCode === 'auth/account-exists-with-different-credential') {
@@ -24,7 +27,7 @@ function getAuthErrorMessage(firebaseError) {
 		return 'This domain is not authorized for Google sign-in in Firebase settings.';
 	}
 
-	return 'Unable to sign up with Google. Please try again.';
+	return 'Unable to sign in with Google. Please try again.';
 }
 
 function deriveDisplayName(emailValue) {
@@ -36,10 +39,10 @@ function deriveDisplayName(emailValue) {
 	return localPart.charAt(0).toUpperCase() + localPart.slice(1);
 }
 
-async function ensureUserProfile(user, fallbackName) {
+async function ensureUserProfile(user) {
 	const userRef = ref(rtdb, `users/${user.uid}`);
 	const existingProfile = await get(userRef);
-	const resolvedName = user.displayName || fallbackName || deriveDisplayName(user.email || '');
+	const resolvedName = user.displayName || deriveDisplayName(user.email || '');
 
 	if (!existingProfile.exists()) {
 		await set(userRef, {
@@ -55,51 +58,43 @@ async function ensureUserProfile(user, fallbackName) {
 	});
 }
 
-function SignUpPage() {
+function Login() {
 	const navigate = useNavigate();
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
-	const [confirmPassword, setConfirmPassword] = useState('');
 	const [error, setError] = useState('');
 	const [isLoading, setIsLoading] = useState(false);
 
 	const handleSubmit = async (event) => {
 		event.preventDefault();
 		setError('');
-
-		if (password !== confirmPassword) {
-			setError('Passwords do not match.');
-			return;
-		}
-
 		setIsLoading(true);
 
 		try {
-			const userCredential = await createUserWithEmailAndPassword(
+			const userCredential = await signInWithEmailAndPassword(
 				auth,
 				email.trim(),
 				password
 			);
-			await ensureUserProfile(userCredential.user, deriveDisplayName(email.trim()));
+			await ensureUserProfile(userCredential.user);
 			navigate(`/dashboard/${userCredential.user.uid}`);
 		} catch (firebaseError) {
-			setError('Unable to create account. Please try again.');
+			setError('Unable to sign in. Please check your email and password.');
 		} finally {
 			setIsLoading(false);
 		}
 	};
 
-	const handleGoogleSignUp = async () => {
+	const handleGoogleSignIn = async () => {
 		setError('');
-
 		setIsLoading(true);
 
 		try {
 			const result = await signInWithPopup(auth, googleProvider);
 			try {
-				await ensureUserProfile(result.user, result.user.displayName || 'Roommate');
+				await ensureUserProfile(result.user);
 			} catch (profileError) {
-				console.error('Google sign-up profile sync failed:', profileError);
+				console.error('Google sign-in profile sync failed:', profileError);
 			}
 			navigate(`/dashboard/${result.user.uid}`);
 		} catch (firebaseError) {
@@ -110,12 +105,12 @@ function SignUpPage() {
 	};
 
 	return (
-		<div className="signup-page">
-			<div className="signup-card">
-				<h1>Create Account</h1>
-				<p>Join Roommate Court</p>
+		<div className="login-page">
+			<div className="login-card">
+				<h1>Roommate Court</h1>
+				<p>Sign in to continue</p>
 
-				<form onSubmit={handleSubmit} className="signup-form">
+				<form onSubmit={handleSubmit} className="login-form">
 					<label htmlFor="email">Email</label>
 					<input
 						id="email"
@@ -132,42 +127,32 @@ function SignUpPage() {
 						type="password"
 						value={password}
 						onChange={(event) => setPassword(event.target.value)}
-						placeholder="At least 6 characters"
+						placeholder="Enter your password"
 						required
 					/>
 
-					<label htmlFor="confirmPassword">Confirm Password</label>
-					<input
-						id="confirmPassword"
-						type="password"
-						value={confirmPassword}
-						onChange={(event) => setConfirmPassword(event.target.value)}
-						placeholder="Re-enter your password"
-						required
-					/>
-
-					{error && <p className="signup-error">{error}</p>}
+					{error && <p className="login-error">{error}</p>}
 
 					<button type="submit" disabled={isLoading}>
-						{isLoading ? 'Creating account...' : 'Sign Up'}
+						{isLoading ? 'Signing in...' : 'Log In'}
 					</button>
 
 					<button
 						type="button"
-						className="google-signup-button"
-						onClick={handleGoogleSignUp}
+						className="google-signin-button"
+						onClick={handleGoogleSignIn}
 						disabled={isLoading}
 					>
-						{isLoading ? 'Please wait...' : 'Sign up with Google'}
+						{isLoading ? 'Please wait...' : 'Sign in with Google'}
 					</button>
 				</form>
 
-				<p className="login-link-text">
-					Already have an account? <Link to="/">Log in</Link>
+				<p className="signup-link-text">
+					Need an account? <Link to="/sign-up">Create one</Link>
 				</p>
 			</div>
 		</div>
 	);
 }
 
-export default SignUpPage;
+export default Login;
