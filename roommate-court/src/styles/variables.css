@@ -1,22 +1,16 @@
 :root {
     /* ─── Colors ───────────────────────────────────── */
-    --color-primary:       #F5A623;   /* main gold — the "gavel" color */
-    --color-primary-dark:  #D4881A;   /* hover states, emphasis */
-    --color-primary-light: #FEF3DC;   /* backgrounds, highlights */
+    --color-primary:       #10377F;   /* regal navy */
+    --color-primary-dark:  #0D2F6D;   /* hover states, emphasis */
+    --color-primary-light: #E6EEFF;   /* backgrounds, highlights */
 
-    --color-secondary:       #2C4A7C;   /* subtle, navy blue */
-    --color-secondary-dark:  #1A2F52;
-    --color-secondary-light: #E8EEF7;
+    --color-secondary:       #B86414;   /* darker orange */
+    --color-secondary-light: #FFE8D2;
 
-    --color-gold: #c9a84c;
-    --color-dark-navy: #1d2b48;
-    --color-blue-primary: #2b63df;
-
-    --color-accent:       #E8563A;   /* energy, urgency, fun CTAs */
-    --color-accent-light: #FDECEA;
+    --color-accent:       #701A9E;   /* purple - energy, urgency, fun CTAs */
+    --color-accent-light: #F3E8FF;
 
     --color-success:  #2E9E6B;   /* verdict: not guilty */
     --color-danger:   #E8563A;   /* verdict: guilty / objection */
     --color-warning:  #F5A623;   /* reuse primary gold for warnings */
-    --color-info:     #2C4A7C;   /* reuse navy for info */
 }
