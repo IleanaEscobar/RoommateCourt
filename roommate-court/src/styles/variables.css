@@ -4,7 +4,7 @@
     --color-primary-dark:  #0D2F6D;   /* hover states, emphasis */
     --color-primary-light: #E6EEFF;   /* backgrounds, highlights */
 
-    --color-secondary:       #B86414;   /* darker orange */
+    --color-secondary:       #ce6f17;   /* darker orange */
     --color-secondary-dark:  #af6214;   /* hover states, emphasis */
     --color-secondary-light: #FFE8D2;
 
@@ -12,6 +12,13 @@
     --color-accent-light: #F3E8FF;
 
     --color-success:  #2E9E6B;   /* verdict: not guilty */
+    --color-success-dark: #22704d;
+
     --color-danger:   #E8563A;   /* verdict: guilty / objection */
+    --color-danger-dark: #E54424;
+    
     --color-warning:  #F5A623;   /* reuse primary gold for warnings */
+    --color-warning-dark: #EA940B;
+
+    --color-cancel: #59452f;
 }
