@@ -39,3 +39,49 @@
 .dashboard-back-button:hover {
 	background: #214fb5;
 }
+
+.dashboard-subtitle {
+	color: #6b7a99;
+	margin: 8px 0 28px;
+	font-size: 1rem;
+}
+
+.dashboard-buttons {
+	display: flex;
+	gap: 16px;
+	justify-content: center;
+	margin-bottom: 24px;
+}
+
+.btn-create-household {
+	padding: 12px 24px;
+	border-radius: 8px;
+	border: 2px solid #2b63df;
+	background: #ffffff;
+	color: #2b63df;
+	font-size: 1rem;
+	font-weight: 600;
+	cursor: pointer;
+	transition: all 0.2s ease;
+}
+
+.btn-create-household:hover {
+	background: #2b63df;
+	color: #ffffff;
+}
+
+.btn-open-case {
+	padding: 12px 24px;
+	border-radius: 8px;
+	border: none;
+	background: #2b63df;
+	color: #ffffff;
+	font-size: 1rem;
+	font-weight: 600;
+	cursor: pointer;
+	transition: background 0.2s ease;
+}
+
+.btn-open-case:hover {
+	background: #214fb5;
+}

@@ -29,7 +29,16 @@ function Dashboard() {
 	return (
 		<div className="dashboard-page">
 			<div className="dashboard-card">
-				<h1>Welcome to Dashboard</h1>
+				<h1>Welcome to Roommate Court</h1>
+				<p className="dashboard-subtitle">What would you like to do?</p>
+				<div className="dashboard-buttons">
+					<button className="btn-create-household">
+						🏠 Create Household
+					</button>
+					<button className="btn-open-case">
+						⚖️ Open Case
+					</button>
+				</div>
 				<Link to="/" className="dashboard-back-button">
 					Back to Login
 				</Link>
