@@ -5,6 +5,7 @@
     --color-primary-light: #E6EEFF;   /* backgrounds, highlights */
 
     --color-secondary:       #B86414;   /* darker orange */
+    --color-secondary-dark:  #af6214;   /* hover states, emphasis */
     --color-secondary-light: #FFE8D2;
 
     --color-accent:       #701A9E;   /* purple - energy, urgency, fun CTAs */
