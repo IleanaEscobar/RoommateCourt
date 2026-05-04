@@ -122,47 +122,20 @@
   color: #5a6a8a;
 }
 
-/* ── Buttons ── */
-.court-btn {
-  display: block;
-  width: 100%;
-  padding: 13px 20px;
-  border: none;
-  border-radius: 8px;
-  font-size: 0.95rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.2s ease, opacity 0.2s ease;
-  margin-bottom: 10px;
-}
-
-.court-btn.primary {
-  background: var(--color-blue-primary);
-  color: #ffffff;
-}
-
-.court-btn.primary:hover:not(:disabled) {
-  background: #214fb5;
-}
-
-.court-btn.primary:disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
-}
-
-.court-btn.secondary {
-  background: #f0f5ff;
-  color: var(--color-blue-primary);
-  border: 1px solid #b8cdf8;
-}
-
-.court-btn.secondary:hover {
-  background: #dce8ff;
-}
-
 .waiting-note {
   margin: 4px 0 0;
   font-size: 0.8rem;
   color: #8898b5;
   font-style: italic;
+}
+
+.waiting-room-actions {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.waiting-room-actions .court-btn {
+  flex: 1;
+  margin-top: 0;
 }

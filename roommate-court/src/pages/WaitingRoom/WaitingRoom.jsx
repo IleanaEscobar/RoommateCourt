@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import './WaitingRoom.css';
+import CourtButton from '../../components/CourtButton/CourtButton';
 
 const MOCK_MEMBERS = [
   { uid: '1', name: 'Alex', present: true },
@@ -63,19 +64,17 @@ function WaitingRoom() {
           ))}
         </div>
 
-        {!hasJoined && (
-          <button className="court-btn secondary" onClick={handleJoin}>
-            Check In to Court
-          </button>
-        )}
+        <div className="waiting-room-actions">
+          {!hasJoined && (
+            <CourtButton variant="secondary" onClick={handleJoin}>
+              Check In to Court
+            </CourtButton>
+          )}
 
-        <button
-          className="court-btn primary"
-          onClick={handleBeginFloor}
-          disabled={!allPresent}
-        >
-          Begin Open Floor
-        </button>
+          <CourtButton variant="primary" onClick={handleBeginFloor} disabled={!allPresent}>
+            Begin Open Floor
+          </CourtButton>
+        </div>
 
         {!allPresent && (
           <p className="waiting-note">
