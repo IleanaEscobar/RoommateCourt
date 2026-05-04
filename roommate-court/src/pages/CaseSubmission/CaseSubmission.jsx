@@ -181,12 +181,12 @@ function CaseSubmission() {
 	return (
 		<div className="case-submission-page">
 			<div className="case-submission-shell">
-				<div className="case-submission-header">
-					<p className="case-severity-pill">{severityMeta.label}</p>
-					<h1>Submit a new roommate case</h1>
-				</div>
+				<p className="case-severity-pill">{severityMeta.label}</p>
 
-				<p>{severityMeta.description}</p>
+				<div className="case-submission-header">
+					<h1>Submit a new roommate case</h1>
+					<p>{severityMeta.description}</p>
+				</div>
 
 				<form className="case-submission-form" onSubmit={handleSubmit}>
 					{questions.map((question, index) => {
