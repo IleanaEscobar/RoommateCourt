@@ -108,15 +108,15 @@
 }
 
 .btn-no-fault {
-  background: #fff8e1;
+  background: #fff8e0;
   border-color: #f0c040;
   color: #b8860b;
 }
 
 .btn-no-fault:hover:not(:disabled),
 .btn-no-fault.selected {
-  background: var(--color-gold);
-  border-color: var(--color-gold);
+  background: #f0c040;
+  border-color: #f0c040;
   color: #ffffff;
   opacity: 1;
 }

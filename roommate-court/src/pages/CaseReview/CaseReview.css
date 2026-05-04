@@ -4,7 +4,10 @@
   align-items: flex-start;
   justify-content: center;
   padding: 40px 24px;
-  background: linear-gradient(180deg, #f3f7ff 0%, #e8eefb 100%);
+  background:
+		radial-gradient(circle at top left, #10377F38, transparent 32%),
+    linear-gradient(160deg, #eef2fa 0%, #dce6f5 52%, #c4d4ed 100%);
+  color: #2a2118;
 }
 
 /* ── Creation Form ── */
@@ -21,12 +24,11 @@
 .case-form-card h1 {
   margin: 0 0 4px;
   font-size: 1.75rem;
-  color: var(--color-dark-navy);
 }
 
 .form-subtitle {
   margin: 0 0 28px;
-  color: #5a6a8a;
+  color: var(--color-blue-light);
   font-size: 0.95rem;
 }
 
@@ -40,7 +42,6 @@
 .form-field label {
   font-size: 0.85rem;
   font-weight: 600;
-  color: var(--color-dark-navy);
   text-transform: uppercase;
   letter-spacing: 0.04em;
 }
@@ -49,10 +50,9 @@
 .form-field select,
 .form-field textarea {
   padding: 10px 12px;
-  border: 1px solid #d0d9ee;
+  border: 1px solid var(--color-blue-light);
   border-radius: 8px;
   font-size: 0.95rem;
-  color: #1d2b48;
   background: #fafbff;
   outline: none;
   transition: border-color 0.2s;
@@ -62,12 +62,12 @@
 .form-field input:focus,
 .form-field select:focus,
 .form-field textarea:focus {
-  border-color: var(--color-blue-primary);
+  border-color: var(--color-primary);
 }
 
 .optional {
   font-weight: 400;
-  color: #8898b5;
+  color: var(--color-blue-light);
   text-transform: none;
   letter-spacing: 0;
 }
@@ -76,15 +76,15 @@
 .docket-panel {
   width: 100%;
   max-width: 640px;
-  background: var(--color-parchment);
-  border: 2px solid #d6c98a;
+  background: var(--color-primary-dark);
+  border: 2px solid var(--color-primary-light);
   border-radius: 4px;
   padding: 40px 40px 32px;
   box-shadow: 0 10px 30px rgba(14, 29, 52, 0.15);
 }
 
 .docket-header {
-  border-bottom: 2px solid #c9a84c;
+  border-bottom: 2px solid var(--color-secondary-light);
   padding-bottom: 16px;
   margin-bottom: 24px;
   text-align: center;
@@ -94,23 +94,23 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 8px;
+  margin-bottom: 36px;
 }
 
 .court-title {
   font-size: 0.7rem;
   font-weight: 700;
   letter-spacing: 0.15em;
-  color: var(--color-dark-navy);
+  color: var(--color-primary-light);
 }
 
 .status-badge {
   font-size: 0.65rem;
   font-weight: 700;
   letter-spacing: 0.08em;
-  color: #b8860b;
-  background: #fff8e1;
-  border: 1px solid #f0c040;
+  color: var(--color-secondary);
+  background: var(--color-secondary-light);
+  border: 1px solid var(--color-secondary-dark);
   border-radius: 3px;
   padding: 3px 8px;
 }
@@ -118,7 +118,7 @@
 .docket-case-id {
   font-size: 1.4rem;
   font-weight: 700;
-  color: var(--color-dark-navy);
+  color: var(--color-primary-light);
   letter-spacing: 0.05em;
 }
 
@@ -129,7 +129,7 @@
   gap: 24px;
   margin-bottom: 28px;
   padding-bottom: 20px;
-  border-bottom: 1px solid #d6c98a;
+  border-bottom: 1px solid var(--color-secondary-light);
 }
 
 .party-block {
@@ -149,7 +149,7 @@
 .party-name {
   font-size: 1.1rem;
   font-weight: 700;
-  color: var(--color-dark-navy);
+  color: var(--color-primary-light);
 }
 
 .versus {
@@ -168,48 +168,13 @@
   font-size: 0.65rem;
   font-weight: 700;
   letter-spacing: 0.12em;
-  color: #8898b5;
+  color: #8898b5;   /* Create variable in typography.css for this called --text-review-docket */
   margin-bottom: 6px;
 }
 
 .docket-section p {
   margin: 0;
   font-size: 0.95rem;
-  color: #2d3a52;
+  color: var(--color-primary-light);
   line-height: 1.6;
-}
-
-/* ── Shared Buttons ── */
-.court-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  padding: 12px 20px;
-  border: none;
-  border-radius: 8px;
-  font-size: 0.95rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.2s ease, opacity 0.2s ease;
-}
-
-.court-btn.primary {
-  background: #2f5d50;
-  color: #ffffff;
-  margin-top: 24px;
-  width: 100%;
-}
-
-.court-btn.primary:hover {
-  background: #2f5d50;
-}
-
-.court-btn.primary:disabled {
-  opacity: 0.45;
-  cursor: not-allowed;
-}
-
-.court-btn.full-width {
-  width: 100%;
 }

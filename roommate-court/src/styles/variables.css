@@ -1,5 +1,5 @@
 :root {
-    /* ─── Colors ───────────────────────────────────── */
+    /* ─── Main Colors ───────────────────────────────────── */
     --color-primary:       #10377F;   /* regal navy */
     --color-primary-dark:  #0D2F6D;   /* hover states, emphasis */
     --color-primary-light: #E6EEFF;   /* backgrounds, highlights */
@@ -8,10 +8,14 @@
     --color-secondary-dark:  #af6214;   /* hover states, emphasis */
     --color-secondary-light: #FFE8D2;
 
-    --color-accent:       #701A9E;   /* purple - energy, urgency, fun CTAs */
-    --color-accent-light: #F3E8FF;
+    /* ─── Accent Colors ───────────────────────────────────── */
+    --color-purple:       #701A9E;   /* purple - energy, urgency, fun CTAs */
+    --color-purple-light: #F3E8FF;
 
     --color-blue: #2b63df;
+    --color-blue-light: #7b8eb8;
+
+    /* ─── State Colors ───────────────────────────────────── */
 
     --color-success:  #2E9E6B;   /* verdict: not guilty */
     --color-success-dark: #22704d;

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import './CaseReview.css';
+import CourtButton from '../../components/CourtButton/CourtButton';
 
 const MOCK_MEMBERS = [
   { uid: '2', name: 'Jordan' },
@@ -90,9 +91,9 @@ function CaseReview() {
             </div>
           )}
 
-          <button className="court-btn primary" onClick={handleOpenCourt}>
+          <CourtButton type="submit" variant="secondary" onClick={handleOpenCourt}>
             Open the Court
-          </button>
+          </CourtButton>
         </div>
       </div>
     );
@@ -148,9 +149,9 @@ function CaseReview() {
             />
           </div>
 
-          <button type="submit" className="court-btn primary full-width">
+          <CourtButton type="submit" variant="primary">
             Submit Case
-          </button>
+          </CourtButton>
         </form>
       </div>
     </div>
