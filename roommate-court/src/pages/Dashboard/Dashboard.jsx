@@ -184,6 +184,29 @@ function Dashboard() {
 
 	return (
 		<div className="dashboard-page">
+			<nav className="top-nav">
+				<Link
+					to={`/dashboard/${uid}/household-settings`}
+					className="top-nav-icon"
+					aria-label="Household Settings"
+					title="Household Settings"
+				>
+					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+						<path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
+					</svg>
+				</Link>
+				<Link
+					to={`/dashboard/${uid}/settings`}
+					className="top-nav-icon"
+					aria-label="Settings"
+					title="Settings"
+				>
+					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+						<circle cx="12" cy="8" r="4" />
+						<path d="M12 14c-5.33 0-8 2.67-8 4v1h16v-1c0-1.33-2.67-4-8-4z" />
+					</svg>
+				</Link>
+			</nav>
 			{mustCreateHousehold && (
 				<div className="household-modal-overlay" role="dialog" aria-modal="true">
 					<div className="household-modal-card">
@@ -261,6 +284,7 @@ function Dashboard() {
 					</div>
 				</div>
 			)}
+			<div className="dashboard-main">
 			<div className="dashboard-card">
 				{showHouseholdSuccess && (
 					<div className="dashboard-success-banner" role="status" aria-live="polite">
@@ -299,6 +323,7 @@ function Dashboard() {
 				<Link to="/" className="dashboard-case-button">
 					Sign Out
 				</Link>
+			</div>
 			</div>
 		</div>
 	);
