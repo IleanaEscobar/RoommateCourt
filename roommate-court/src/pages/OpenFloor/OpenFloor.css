@@ -42,7 +42,7 @@
   margin: 0;
   font-size: 1.1rem;
   font-weight: 700;
-  color: #ffffff;
+  color: var(--color-primary);
   flex: 1;
   text-align: center;
   white-space: nowrap;

@@ -4,7 +4,9 @@
   align-items: center;
   justify-content: center;
   padding: 40px 24px;
-  background: linear-gradient(180deg, #f3f7ff 0%, #e8eefb 100%);
+  background:
+		radial-gradient(circle at top left, #10377F38, transparent 32%),
+		linear-gradient(160deg, #eef2fa 0%, #dce6f5 52%, #c4d4ed 100%);
 }
 
 .waiting-room-card {
@@ -101,7 +103,7 @@
   height: 36px;
   border-radius: 50%;
   background: var(--color-blue-primary);
-  color: #ffffff;
+  color: var(--color-secondary);
   font-weight: 700;
   font-size: 1rem;
   display: flex;
