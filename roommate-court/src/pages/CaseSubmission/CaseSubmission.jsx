@@ -3,7 +3,7 @@ import { onAuthStateChanged } from 'firebase/auth';
 import { push, ref, serverTimestamp, update } from 'firebase/database';
 import { useNavigate, useParams } from 'react-router-dom';
 import { auth, rtdb } from '../../firebase';
-import './CaseSubmissionPage.css';
+import './CaseSubmission.css';
 
 const QUESTION_SETS = {
 	minor: [
@@ -64,7 +64,7 @@ function buildInitialAnswers(questions) {
 	}, {});
 }
 
-function CaseSubmissionPage() {
+function CaseSubmission() {
 	const navigate = useNavigate();
 	const { severity, uid } = useParams();
 	const normalizedSeverity = severity?.toLowerCase();
@@ -181,8 +181,9 @@ function CaseSubmissionPage() {
 	return (
 		<div className="case-submission-page">
 			<div className="case-submission-shell">
+				<p className="case-severity-pill">{severityMeta.label}</p>
+
 				<div className="case-submission-header">
-					<p className="case-severity-pill">{severityMeta.label}</p>
 					<h1>Submit a new roommate case</h1>
 					<p>{severityMeta.description}</p>
 				</div>
@@ -232,4 +233,4 @@ function CaseSubmissionPage() {
 	);
 }
 
-export default CaseSubmissionPage;
+export default CaseSubmission;

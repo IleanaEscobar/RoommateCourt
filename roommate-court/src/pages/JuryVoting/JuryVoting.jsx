@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { auth } from '../../firebase';
 import './JuryVoting.css';
+import CourtButton from '../../components/CourtButton/CourtButton';
 
 const INITIAL_VOTES = [
   { uid: '2', name: 'Jordan', verdict: 'not_guilty' },
@@ -76,9 +77,9 @@ function JuryVoting() {
             ))}
           </div>
 
-          <button className="court-btn primary" onClick={handleReturnToDashboard}>
+          <CourtButton variant="primary" onClick={handleReturnToDashboard}>
             Return to Dashboard
-          </button>
+          </CourtButton>
         </div>
       </div>
     );
@@ -146,9 +147,9 @@ function JuryVoting() {
         </div>
 
         {allVoted && (
-          <button className="court-btn primary" onClick={() => setPhase('verdict')}>
+          <CourtButton variant="primary" onClick={() => setPhase('verdict')}>
             Reveal Verdict
-          </button>
+          </CourtButton>
         )}
       </div>
     </div>

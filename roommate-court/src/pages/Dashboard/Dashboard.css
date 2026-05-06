@@ -57,11 +57,12 @@
 	flex-wrap: wrap;
 	justify-content: center;
 	gap: 12px;
-	margin-top: 24px;
+	margin-bottom: 36px;
 }
+
 .dashboard-subtitle {
 	margin: 8px 0 24px;
-	color: #5a6a8a;
+	color: #000000;
 	font-size: 1rem;
 }
 
@@ -72,19 +73,20 @@
 	margin-bottom: 12px;
 	border: none;
 	border-radius: 8px;
-	background: #2b63df;
+	background: var(--color-secondary);
 	color: #ffffff;
 	font-size: 1rem;
 	font-weight: 600;
 	cursor: pointer;
-	transition: background-color 0.2s ease;
+	transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
 }
 
 .dashboard-file-case-btn:hover {
-	background: #214fb5;
+	transform: translateY(-1px);
+	box-shadow: 0 12px 24px var(--color-hover-shadow);
 }
 
-.dashboard-back-button {
+.dashboard-case-button {
 	display: inline-block;
 	margin-top: 20px;
 	padding: 10px 16px;
@@ -92,12 +94,13 @@
 	text-decoration: none;
 	font-weight: 600;
 	color: #ffffff;
-	background: #2b63df;
-	transition: background-color 0.2s ease;
+	background: var(--color-primary);
+	transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
 }
 
-.dashboard-back-button:hover {
-	background: #214fb5;
+.dashboard-case-button:hover {
+	transform: translateY(-1px);
+	box-shadow: 0 12px 24px var(--color-hover-shadow);
 }
 
 .household-modal-overlay {
@@ -169,13 +172,13 @@
 	font-size: 1rem;
 	font-weight: 600;
 	color: #ffffff;
-	background: #2b63df;
+	background: var(--color-secondary);
 	cursor: pointer;
 	transition: background-color 0.2s ease;
 }
 
 .household-modal-form button:hover:not(:disabled) {
-	background: #214fb5;
+	background: var(--color-secondary-dark);
 }
 
 .household-modal-form button:disabled {

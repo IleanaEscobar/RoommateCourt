@@ -281,13 +281,13 @@ function Dashboard() {
 				)}
 				<h1>Welcome to Dashboard</h1>
 				<div className="dashboard-actions">
-					<Link to={`/dashboard/${uid}/case-submission/minor`} className="dashboard-back-button">
+					<Link to={`/dashboard/${uid}/case-submission/minor`} className="dashboard-case-button">
 						Start Minor Case
 					</Link>
-					<Link to={`/dashboard/${uid}/case-submission/moderate`} className="dashboard-back-button">
+					<Link to={`/dashboard/${uid}/case-submission/moderate`} className="dashboard-case-button">
 						Start Moderate Case
 					</Link>
-					<Link to={`/dashboard/${uid}/case-submission/severe`} className="dashboard-back-button">
+					<Link to={`/dashboard/${uid}/case-submission/severe`} className="dashboard-case-button">
 						Start Severe Case
 					</Link>
 				</div>
@@ -296,7 +296,7 @@ function Dashboard() {
 				<button className="dashboard-file-case-btn" onClick={() => navigate('/case/new')}>
 					File a New Case
 				</button>
-				<Link to="/" className="dashboard-back-button">
+				<Link to="/" className="dashboard-case-button">
 					Sign Out
 				</Link>
 			</div>
