@@ -89,7 +89,7 @@ function OpenFloor() {
           <span className="case-vs">{caseData.plaintiff} v. {caseData.defendant}</span>
           <span className="case-id-label">Case #{caseId?.toUpperCase()}</span>
         </div>
-        <h1 className="floor-title">The Floor is Open</h1>
+        <h1 className="floor-title">Speak your truth!</h1>
         <button className="close-floor-btn" onClick={handleCloseFloor}>
           Close the Floor
         </button>

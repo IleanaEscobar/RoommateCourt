@@ -57,14 +57,13 @@ function JuryVoting() {
     };
 
     return (
-      <div className="jury-voting-page">
+      <div className="verdict-page">
         <div className="verdict-panel">
           <p className="verdict-pre-label">THE COURT FINDS</p>
+          <p className="verdict-description">{caseData.defendant}</p>
           <div className={`verdict-stamp stamp-${winningVerdict}`}>
             {VERDICT_LABELS[winningVerdict].toUpperCase()}
           </div>
-          <p className="verdict-description">{verdictDescriptions[winningVerdict]}</p>
-
           <div className="verdict-breakdown">
             <h3>Vote Breakdown</h3>
             {votes.map(v => (
@@ -77,7 +76,7 @@ function JuryVoting() {
             ))}
           </div>
 
-          <CourtButton variant="primary" onClick={handleReturnToDashboard}>
+          <CourtButton variant="secondary" onClick={handleReturnToDashboard}>
             Return to Dashboard
           </CourtButton>
         </div>
