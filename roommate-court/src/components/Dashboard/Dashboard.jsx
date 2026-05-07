@@ -279,26 +279,20 @@ function Dashboard() {
 						</button>
 					</div>
 				)}
-				<h1>Welcome to Dashboard</h1>
-				<div className="dashboard-actions">
-					<Link to={`/dashboard/${uid}/case-submission/minor`} className="dashboard-back-button">
-						Start Minor Case
-					</Link>
-					<Link to={`/dashboard/${uid}/case-submission/moderate`} className="dashboard-back-button">
-						Start Moderate Case
-					</Link>
-					<Link to={`/dashboard/${uid}/case-submission/severe`} className="dashboard-back-button">
-						Start Severe Case
-					</Link>
+				<div className="dashboard-header">
+					<h1>Roommate Court</h1>
+					<p className="dashboard-subtitle">Resolve disputes fairly, one case at a time.</p>
 				</div>
-				<h1>Roommate Court</h1>
-				<p className="dashboard-subtitle">Resolve disputes fairly, one case at a time.</p>
-				<button className="dashboard-file-case-btn" onClick={() => navigate('/case/new')}>
-					File a New Case
-				</button>
-				<Link to="/" className="dashboard-back-button">
-					Sign Out
-				</Link>
+
+				<p className="dashboard-section-label">File a Case</p>
+				<div className="dashboard-actions">
+					<Link to={`/dashboard/${uid}/case-submission/minor`} className="case-btn">Minor</Link>
+					<Link to={`/dashboard/${uid}/case-submission/moderate`} className="case-btn">Moderate</Link>
+					<Link to={`/dashboard/${uid}/case-submission/severe`} className="case-btn">Severe</Link>
+				</div>
+
+				<div className="dashboard-divider" />
+				<Link to="/" className="dashboard-signout-btn">Sign Out</Link>
 			</div>
 		</div>
 	);
