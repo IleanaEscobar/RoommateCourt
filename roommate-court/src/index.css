@@ -11,3 +11,47 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+/* ── Shared top nav bar ── */
+.top-nav {
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  height: 64px;
+  padding: 0 24px;
+  background: #ffffff;
+  border-bottom: 1px solid #e5ebf7;
+  box-shadow: 0 2px 8px rgba(14, 29, 52, 0.06);
+}
+
+.top-nav-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #eef2fc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #4977e8;
+  text-decoration: none;
+  transition: background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.top-nav-icon svg {
+  width: 22px;
+  height: 22px;
+}
+
+.top-nav-icon:hover,
+.top-nav-icon.active {
+  background: #4977e8;
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(73, 119, 232, 0.35);
+}
