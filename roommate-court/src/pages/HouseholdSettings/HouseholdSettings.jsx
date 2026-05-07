@@ -60,7 +60,8 @@ function HouseholdSettings() {
 
 					setHouseholds(loaded.filter(Boolean));
 					setIsAuthorized(true);
-				} catch {
+				} catch (error) {
+					console.log('Failed to load households', error);
 					navigate('/', { replace: true });
 				} finally {
 					setIsLoading(false);

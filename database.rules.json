@@ -3,7 +3,10 @@
     "users": {
       "$uid": {
         ".read": "$uid === auth.uid",
-        ".write": "$uid === auth.uid"
+        ".write": "$uid === auth.uid",
+        "name": {
+          ".read": "auth != null"
+        }
       }
     },
     "households": {
