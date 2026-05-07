@@ -163,9 +163,8 @@ function CaseSubmission() {
 
 			await update(ref(rtdb), updates);
 
-			navigate(`/dashboard/${uid}`, {
-				replace: true,
-				state: { createdCaseId: caseId }
+			navigate(`/case/${caseId}/waiting`, {
+				replace: true
 			});
 		} catch (firebaseError) {
 			setError('Unable to submit the case right now. Please try again.');

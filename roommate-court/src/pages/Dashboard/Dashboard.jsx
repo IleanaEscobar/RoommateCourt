@@ -292,6 +292,9 @@ function Dashboard() {
 						Start Severe Case
 					</Link>
 				</div>
+
+				<div className="dashboard-divider" />
+				<Link to="/" className="dashboard-signout-btn">Sign Out</Link>
 			</div>
 		</div>
 	);
