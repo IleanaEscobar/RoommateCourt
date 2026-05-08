@@ -1,0 +1,31 @@
+:root {
+    /* ─── Main Colors ───────────────────────────────────── */
+    --color-primary:       #10377F;   /* regal navy */
+    --color-primary-dark:  #0D2F6D;   /* hover states, emphasis */
+    --color-primary-light: #E6EEFF;   /* backgrounds, highlights */
+
+    --color-secondary:       #ce6f17;   /* darker orange */
+    --color-secondary-dark:  #af6214;   /* hover states, emphasis */
+    --color-secondary-light: #FFE8D2;
+
+    /* ─── Accent Colors ───────────────────────────────────── */
+    --color-purple:       #701A9E;   /* purple - energy, urgency, fun CTAs */
+    --color-purple-light: #F3E8FF;
+
+    --color-blue: #2b63df;
+    --color-blue-light: #7b8eb8;
+
+    /* ─── State Colors ───────────────────────────────────── */
+
+    --color-success:  #2E9E6B;   /* verdict: not guilty */
+    --color-success-dark: #22704d;
+
+    --color-danger:   #E8563A;   /* verdict: guilty / objection */
+    --color-danger-dark: #E54424;
+    
+    --color-warning:  #F5A623;   /* reuse primary gold for warnings */
+    --color-warning-dark: #EA940B;
+
+    --color-cancel: #59452f;
+    --color-hover-shadow: #2a21181f;
+}

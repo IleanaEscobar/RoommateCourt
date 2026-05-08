@@ -1,0 +1,180 @@
+.case-review-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 40px 24px;
+  background:
+		radial-gradient(circle at top left, #10377F38, transparent 32%),
+    linear-gradient(160deg, #eef2fa 0%, #dce6f5 52%, #c4d4ed 100%);
+  color: #2a2118;
+}
+
+/* ── Creation Form ── */
+.case-form-card {
+  width: 100%;
+  max-width: 600px;
+  background: #ffffff;
+  border: 1px solid #e5ebf7;
+  border-radius: 12px;
+  padding: 40px 32px;
+  box-shadow: 0 10px 30px rgba(14, 29, 52, 0.12);
+}
+
+.case-form-card h1 {
+  margin: 0 0 4px;
+  font-size: 1.75rem;
+}
+
+.form-subtitle {
+  margin: 0 0 28px;
+  color: var(--color-blue-light);
+  font-size: 0.95rem;
+}
+
+.form-field {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-field label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.form-field input,
+.form-field select,
+.form-field textarea {
+  padding: 10px 12px;
+  border: 1px solid var(--color-blue-light);
+  border-radius: 8px;
+  font-size: 0.95rem;
+  background: #fafbff;
+  outline: none;
+  transition: border-color 0.2s;
+  resize: vertical;
+}
+
+.form-field input:focus,
+.form-field select:focus,
+.form-field textarea:focus {
+  border-color: var(--color-primary);
+}
+
+.optional {
+  font-weight: 400;
+  color: var(--color-blue-light);
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+/* ── Docket Panel ── */
+.docket-panel {
+  width: 100%;
+  max-width: 640px;
+  background: var(--color-primary-dark);
+  border: 2px solid var(--color-primary-light);
+  border-radius: 4px;
+  padding: 40px 40px 32px;
+  box-shadow: 0 10px 30px rgba(14, 29, 52, 0.15);
+}
+
+.docket-header {
+  border-bottom: 2px solid var(--color-secondary-light);
+  padding-bottom: 16px;
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.docket-header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 36px;
+}
+
+.court-title {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  color: var(--color-primary-light);
+}
+
+.status-badge {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--color-secondary);
+  background: var(--color-secondary-light);
+  border: 1px solid var(--color-secondary-dark);
+  border-radius: 3px;
+  padding: 3px 8px;
+}
+
+.docket-case-id {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--color-primary-light);
+  letter-spacing: 0.05em;
+}
+
+.docket-caption {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  margin-bottom: 28px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--color-secondary-light);
+}
+
+.party-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.party-role {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: #8898b5;
+}
+
+.party-name {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--color-primary-light);
+}
+
+.versus {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #8898b5;
+  font-style: italic;
+}
+
+.docket-section {
+  margin-bottom: 36px;
+}
+
+.docket-section-label {
+  display: block;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: #8898b5;   /* Create variable in typography.css for this called --text-review-docket */
+  margin-bottom: 6px;
+}
+
+.docket-section p {
+  margin: 0;
+  font-size: 0.95rem;
+  color: var(--color-primary-light);
+  line-height: 1.6;
+}

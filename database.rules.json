@@ -1,0 +1,37 @@
+{
+  "rules": {
+    "users": {
+      "$uid": {
+        ".read": "$uid === auth.uid",
+        ".write": "$uid === auth.uid",
+        "name": {
+          ".read": "auth != null"
+        }
+      }
+    },
+    "households": {
+      "$householdId": {
+        ".read": "auth != null",
+        ".write": "auth != null && (data.child('members').child(auth.uid).exists() || !data.exists() || newData.child('members').child(auth.uid).exists())"
+      }
+    },
+    "cases": {
+      "$caseId": {
+        ".read": "auth != null && (data.child('users').child(auth.uid).exists() || !data.exists())",
+        ".write": "auth != null && (data.child('users').child(auth.uid).exists() || !data.exists())"
+      }
+    },
+    "caseSubmissions": {
+      "$caseId": {
+        ".read": "auth != null",
+        ".write": "auth != null"
+      }
+      },
+      "householdCodes": {
+        "$code": {
+          ".read": "auth != null",
+          ".write": "auth != null && !data.exists()"
+        }
+      }
+  }
+}

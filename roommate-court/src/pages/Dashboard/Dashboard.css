@@ -1,0 +1,335 @@
+.dashboard-page {
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+	background: linear-gradient(180deg, #f3f7ff 0%, #e8eefb 100%);
+}
+
+.dashboard-main {
+	flex: 1;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 24px;
+	background: linear-gradient(180deg, #f5efe6 0%, #ede0cf 100%);
+}
+
+.dashboard-card {
+	width: 100%;
+	max-width: 480px;
+	background: #fdf8f2;
+	border: 1px solid #d9c9b0;
+	border-radius: 16px;
+	padding: 40px 32px;
+	box-shadow: 0 10px 40px rgba(60, 35, 10, 0.12);
+	text-align: center;
+}
+
+.dashboard-header {
+	margin-bottom: 32px;
+}
+
+.dashboard-card h1 {
+	margin: 0;
+	font-size: 2rem;
+	color: #3b1f0a;
+	letter-spacing: -0.5px;
+}
+
+.dashboard-subtitle {
+	margin: 8px 0 0;
+	color: #7a5c3e;
+	font-size: 0.975rem;
+}
+
+.dashboard-section-label {
+	margin: 0 0 12px;
+	font-size: 0.8rem;
+	font-weight: 700;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: #a07850;
+}
+
+/* Case buttons */
+.dashboard-actions {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+
+.case-btn {
+	display: block;
+	padding: 14px 18px;
+	border-radius: 10px;
+	text-decoration: none;
+	text-align: center;
+	font-size: 1rem;
+	font-weight: 700;
+	color: #fdf8f2;
+	background: rgba(122, 74, 30, 0.65);
+	transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+}
+
+.case-btn:hover {
+	background: rgba(94, 54, 20, 0.8);
+	transform: translateY(-2px);
+	box-shadow: 0 4px 14px rgba(60, 35, 10, 0.2);
+}
+
+/* Divider & sign out */
+.dashboard-divider {
+	height: 1px;
+	background: #d9c9b0;
+	margin: 24px 0 20px;
+}
+
+.dashboard-signout-btn {
+	display: inline-block;
+	padding: 9px 22px;
+	border-radius: 8px;
+	border: 1.5px solid #c4aa88;
+	text-decoration: none;
+	font-size: 0.9rem;
+	font-weight: 600;
+	color: #7a5c3e;
+	background: transparent;
+	transition: border-color 0.15s ease, color 0.15s ease, background 0.15s ease;
+}
+
+.dashboard-signout-btn:hover {
+	border-color: #9a7a55;
+	color: #3b1f0a;
+	background: #f0e6d6;
+}
+
+/* Success banner */
+.dashboard-success-banner {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 12px;
+	padding: 10px 12px;
+	border-radius: 8px;
+	background: #e9f7ee;
+	border: 1px solid #b8e2c6;
+	color: #1c6b3c;
+	font-weight: 600;
+	margin-bottom: 20px;
+	text-align: left;
+}
+
+.dashboard-success-dismiss {
+	flex-shrink: 0;
+	border: 1px solid #92cfaa;
+	border-radius: 6px;
+	padding: 6px 10px;
+	background: #ffffff;
+	color: #1c6b3c;
+	font-weight: 600;
+	cursor: pointer;
+}
+
+.dashboard-success-dismiss:hover {
+	background: #f2fff7;
+}
+
+.dashboard-actions {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: 12px;
+	margin-bottom: 36px;
+}
+
+.dashboard-subtitle {
+	margin: 8px 0 24px;
+	color: #000000;
+	font-size: 1rem;
+}
+
+.dashboard-file-case-btn {
+	display: block;
+	width: 100%;
+	padding: 14px;
+	margin-bottom: 12px;
+	border: none;
+	border-radius: 8px;
+	background: var(--color-secondary);
+	color: #ffffff;
+	font-size: 1rem;
+	font-weight: 600;
+	cursor: pointer;
+	transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+}
+
+.dashboard-file-case-btn:hover {
+	transform: translateY(-1px);
+	box-shadow: 0 12px 24px var(--color-hover-shadow);
+}
+
+.dashboard-case-button {
+	display: inline-block;
+	margin-top: 20px;
+	padding: 10px 16px;
+	border-radius: 8px;
+	border: none;
+	text-decoration: none;
+	font-weight: 600;
+	color: #ffffff;
+	background: var(--color-primary);
+	cursor: pointer;
+	transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+}
+
+.dashboard-case-button:hover {
+	transform: translateY(-1px);
+	box-shadow: 0 12px 24px var(--color-hover-shadow);
+}
+
+.dashboard-create-household-btn {
+	background: #7a4a1e;
+}
+
+.dashboard-create-household-btn:hover {
+	background: #5e3614;
+}
+
+.household-modal-overlay {
+	position: fixed;
+	inset: 0;
+	background: rgba(16, 32, 63, 0.5);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 24px;
+	z-index: 1000;
+}
+
+.household-modal-card {
+	position: relative;
+	width: min(100%, 480px);
+	background: #ffffff;
+	border-radius: 14px;
+	padding: 28px;
+	box-shadow: 0 18px 40px rgba(12, 22, 44, 0.28);
+	border: 1px solid #dce5f8;
+}
+
+.household-modal-card h2 {
+	margin: 0;
+	font-size: 1.45rem;
+	color: #1d2b48;
+}
+
+.household-modal-card p {
+	margin: 10px 0 0;
+	color: #4b5b7c;
+}
+
+.household-modal-close {
+	position: absolute;
+	top: 12px;
+	right: 12px;
+	width: 30px;
+	height: 30px;
+	border: 1px solid #d3dcf1;
+	border-radius: 6px;
+	background: #ffffff;
+	color: #516489;
+	font-size: 1rem;
+	line-height: 1;
+	cursor: pointer;
+}
+
+.household-modal-close:hover {
+	background: #f4f7ff;
+}
+
+.household-modal-form {
+	margin-top: 18px;
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+
+.household-modal-form label {
+	font-weight: 600;
+	font-size: 0.95rem;
+	color: #2b3d5f;
+}
+
+.household-modal-form input,
+.household-modal-form select {
+	border: 1px solid #c8d4eb;
+	border-radius: 8px;
+	padding: 12px;
+	font-size: 1rem;
+	outline: none;
+	background: #ffffff;
+	transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.household-modal-form input:focus,
+.household-modal-form select:focus {
+	border-color: #4977e8;
+	box-shadow: 0 0 0 3px rgba(73, 119, 232, 0.15);
+}
+
+.household-modal-form button {
+	margin-top: 6px;
+	border: none;
+	border-radius: 8px;
+	padding: 12px;
+	font-size: 1rem;
+	font-weight: 600;
+	color: #ffffff;
+	background: var(--color-secondary);
+	cursor: pointer;
+	transition: background-color 0.2s ease;
+}
+
+.household-modal-form button:hover:not(:disabled) {
+	background: var(--color-secondary-dark);
+}
+
+.household-modal-form button:disabled {
+	opacity: 0.7;
+	cursor: not-allowed;
+}
+
+.household-modal-error {
+	margin: 4px 0;
+	color: #b42318;
+	font-size: 0.92rem;
+}
+
+.household-modal-tabs {
+	display: flex;
+	border-bottom: 2px solid #e5ebf7;
+	margin-bottom: 18px;
+	margin-top: 16px;
+}
+
+.household-modal-tab {
+	flex: 1;
+	padding: 10px;
+	border: none;
+	background: none;
+	cursor: pointer;
+	font-size: 0.95rem;
+	font-weight: 600;
+	color: #4b5b7c;
+	border-bottom: 2px solid transparent;
+	margin-bottom: -2px;
+	transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.household-modal-tab.active {
+	color: #2b63df;
+	border-bottom-color: #2b63df;
+}
+
+.household-modal-tab:hover:not(.active) {
+	color: #2b3d5f;
+}
