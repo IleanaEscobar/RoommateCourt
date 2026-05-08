@@ -30,6 +30,8 @@ function Dashboard() {
 	const [joinError, setJoinError] = useState('');
 	const [isSavingJoin, setIsSavingJoin] = useState(false);
 	const [createdHouseholdCode, setCreatedHouseholdCode] = useState('');
+	const [showCreateHouseholdModal, setShowCreateHouseholdModal] = useState(false);
+	const [inviteEmails, setInviteEmails] = useState('');
 
 	useEffect(() => {
 		const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -91,12 +93,44 @@ function Dashboard() {
 		return code;
 	}
 
+	function parseInviteEmails(rawValue) {
+		if (!rawValue.trim()) {
+			return [];
+		}
+
+		const uniqueEmails = Array.from(
+			new Set(
+				rawValue
+					.split(',')
+					.map((email) => email.trim().toLowerCase())
+					.filter(Boolean)
+			)
+		);
+		const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+		const invalidEmail = uniqueEmails.find((email) => !emailPattern.test(email));
+
+		if (invalidEmail) {
+			throw new Error('Please use valid emails separated by commas.');
+		}
+
+		return uniqueEmails;
+	}
+
 	const handleCreateHousehold = async (event) => {
 		event.preventDefault();
 		setHouseholdError('');
 
 		if (!householdName.trim()) {
 			setHouseholdError('Please provide a household name.');
+			return;
+		}
+
+		let invitedEmails = [];
+
+		try {
+			invitedEmails = parseInviteEmails(inviteEmails);
+		} catch (error) {
+			setHouseholdError(error.message || 'Please review the invite emails.');
 			return;
 		}
 
@@ -116,7 +150,8 @@ function Dashboard() {
 					name: householdName.trim(),
 					members: { [uid]: true },
 					sentencingSeverity,
-					code
+					code,
+					invitedEmails
 				},
 				[`householdCodes/${code}`]: householdId,
 				[`users/${uid}/households/${householdId}`]: true
@@ -124,8 +159,10 @@ function Dashboard() {
 
 			setCreatedHouseholdCode(code);
 			setMustCreateHousehold(false);
+			setShowCreateHouseholdModal(false);
 			setShowHouseholdSuccess(true);
 			setHouseholdName('');
+			setInviteEmails('');
 		} catch (error) {
 			setHouseholdError('Unable to create household. Please try again.');
 		} finally {
@@ -182,6 +219,9 @@ function Dashboard() {
 		return null;
 	}
 
+	const shouldShowHouseholdModal = mustCreateHousehold || showCreateHouseholdModal;
+	const showJoinTab = mustCreateHousehold;
+
 	return (
 		<div className="dashboard-page">
 			<nav className="top-nav">
@@ -207,29 +247,49 @@ function Dashboard() {
 					</svg>
 				</Link>
 			</nav>
-			{mustCreateHousehold && (
+			{shouldShowHouseholdModal && (
 				<div className="household-modal-overlay" role="dialog" aria-modal="true">
 					<div className="household-modal-card">
-						<h2>Set up your household</h2>
-						<p>Create a new household or join an existing one with a code.</p>
-						<div className="household-modal-tabs">
+						{!mustCreateHousehold && (
 							<button
 								type="button"
-								className={`household-modal-tab${modalTab === 'create' ? ' active' : ''}`}
-								onClick={() => { setModalTab('create'); setHouseholdError(''); setJoinError(''); }}
+								className="household-modal-close"
+								onClick={() => {
+									setShowCreateHouseholdModal(false);
+									setHouseholdError('');
+								}}
+								aria-label="Close create household modal"
 							>
-								Create
+								x
 							</button>
-							<button
-								type="button"
-								className={`household-modal-tab${modalTab === 'join' ? ' active' : ''}`}
-								onClick={() => { setModalTab('join'); setHouseholdError(''); setJoinError(''); }}
-							>
-								Join
-							</button>
-						</div>
+						)}
+						<h2>{mustCreateHousehold ? 'Set up your household' : 'Create a household'}</h2>
+						<p>
+							{mustCreateHousehold
+								? 'Create a new household or join an existing one with a code.'
+								: 'Choose the sentencing severity and optionally add invite emails.'
+							}
+						</p>
+						{showJoinTab && (
+							<div className="household-modal-tabs">
+								<button
+									type="button"
+									className={`household-modal-tab${modalTab === 'create' ? ' active' : ''}`}
+									onClick={() => { setModalTab('create'); setHouseholdError(''); setJoinError(''); }}
+								>
+									Create
+								</button>
+								<button
+									type="button"
+									className={`household-modal-tab${modalTab === 'join' ? ' active' : ''}`}
+									onClick={() => { setModalTab('join'); setHouseholdError(''); setJoinError(''); }}
+								>
+									Join
+								</button>
+							</div>
+						)}
 
-						{modalTab === 'create' && (
+						{(!showJoinTab || modalTab === 'create') && (
 							<form className="household-modal-form" onSubmit={handleCreateHousehold}>
 								<label htmlFor="householdName">Household Name</label>
 								<input
@@ -251,6 +311,15 @@ function Dashboard() {
 									<option value="moderate">Moderate</option>
 									<option value="severe">Severe</option>
 								</select>
+
+								<label htmlFor="inviteEmails">Add users by email (optional)</label>
+								<input
+									id="inviteEmails"
+									type="text"
+									value={inviteEmails}
+									onChange={(event) => setInviteEmails(event.target.value)}
+									placeholder="roommate1@email.com, roommate2@email.com"
+								/>
 
 								{householdError && <p className="household-modal-error">{householdError}</p>}
 
@@ -315,6 +384,20 @@ function Dashboard() {
 					<Link to={`/dashboard/${uid}/case-submission/severe`} className="dashboard-case-button">
 						Start Severe Case
 					</Link>
+					<button
+						type="button"
+						className="dashboard-case-button dashboard-create-household-btn"
+						onClick={() => {
+							setModalTab('create');
+							setHouseholdError('');
+							setJoinError('');
+							setHouseholdName('');
+							setInviteEmails('');
+							setShowCreateHouseholdModal(true);
+						}}
+					>
+						Create Household
+					</button>
 				</div>
 
 				<div className="dashboard-divider" />
