@@ -66,143 +66,231 @@
   background: #c0392b;
 }
 
-/* ── Messages ── */
-.messages-thread {
+/* Body */
+.floor-body {
   flex: 1;
-  overflow-y: auto;
-  padding: 20px 24px;
+  padding: 24px;
+  display: grid;
+  gap: 24px;
+}
+
+/* Timer card */
+.timer-card {
+  background: #ffffff;
+  border: 1px solid #e5ebf7;
+  border-radius: 20px;
+  padding: 28px 30px;
+  box-shadow: 0 14px 38px rgba(14, 29, 52, 0.12);
+  text-align: center;
+  display: grid;
+  gap: 16px;
+}
+
+.timer-label {
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 0.82rem;
+  color: #5a6a8a;
+  font-weight: 700;
+}
+
+.timer-display {
+  font-size: 2.8rem;
+  font-weight: 800;
+  color: var(--color-dark-navy);
+}
+
+.timer-countdown {
+  font-size: 4rem;
+  font-weight: 900;
+  color: var(--color-blue-primary);
+}
+
+.timer-progress {
+  height: 12px;
+  width: 100%;
+  background: #e5ebf7;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.timer-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #4466f2, #5ea1ff);
+  border-radius: 999px;
+  transition: width 0.3s ease;
+}
+
+/* Speaker panel */
+.speaker-panel {
+  background: #ffffff;
+  border: 1px solid #e5ebf7;
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow: 0 12px 30px rgba(14, 29, 52, 0.08);
+}
+
+.speaker-panel-header {
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px;
+  gap: 12px;
+}
+
+.speaker-panel-header h2 {
+  margin: 0;
+  font-size: 1.1rem;
+  color: var(--color-dark-navy);
+}
+
+.speaker-count {
+  font-size: 0.9rem;
+  color: #5a6a8a;
+  white-space: nowrap;
+}
+
+.speaker-list {
+  display: grid;
+  gap: 12px;
+}
+
+.speaker-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 16px;
+  border-radius: 16px;
+  border: 1px solid #e5ebf7;
+  background: #fafbff;
+  transition: transform 0.2s, background-color 0.2s, opacity 0.2s;
+}
+
+.speaker-row.active {
+  border-color: #3d6dfc;
+  background: rgba(69, 110, 255, 0.08);
+  box-shadow: 0 0 0 1px rgba(69, 110, 255, 0.15);
+  animation: pulse-glow 1.4s ease-in-out infinite;
+}
+
+.speaker-row.completed {
+  opacity: 0.55;
+  background: #f3f5fb;
+}
+
+.speaker-info {
+  display: flex;
+  align-items: center;
   gap: 14px;
 }
 
-.message-bubble {
-  max-width: 680px;
-  width: 100%;
-  align-self: flex-start;
-  border-radius: 10px;
-  padding: 14px 16px;
-  border: 1px solid transparent;
-}
-
-.message-plaintiff {
-  background: var(--color-plaintiff-bg);
-  border-color: #b8cdf8;
-}
-
-.message-defendant {
-  background: var(--color-defendant-bg);
-  border-color: #f4b8b3;
-}
-
-.message-juror {
-  background: #f5f5f5;
-  border-color: #e0e0e0;
-}
-
-.message-meta {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 8px;
-}
-
-.message-avatar {
-  width: 28px;
-  height: 28px;
+.speaker-avatar {
+  width: 42px;
+  height: 42px;
   border-radius: 50%;
-  background: var(--color-dark-navy);
+  background: var(--color-blue-primary);
   color: #ffffff;
-  font-size: 0.8rem;
+  font-size: 1rem;
   font-weight: 700;
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-shrink: 0;
 }
 
-.message-name {
+.speaker-name {
+  font-size: 0.98rem;
   font-weight: 700;
-  font-size: 0.9rem;
   color: var(--color-dark-navy);
 }
 
-.role-badge {
-  font-size: 0.65rem;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  padding: 2px 7px;
-  border-radius: 3px;
-  text-transform: uppercase;
+.speaker-status {
+  font-size: 0.84rem;
+  color: #64748b;
+  margin-top: 2px;
 }
 
-.badge-plaintiff {
-  background: #dce8ff;
-  color: #2b63df;
-}
-
-.badge-defendant {
-  background: #fde8e6;
-  color: #c0392b;
-}
-
-.badge-juror {
-  background: #e8e8e8;
-  color: #555;
-}
-
-.message-time {
-  margin-left: auto;
-  font-size: 0.75rem;
-  color: #8898b5;
-}
-
-.message-text {
-  margin: 0;
-  font-size: 0.93rem;
-  color: #2d3a52;
-  line-height: 1.55;
-}
-
-/* ── Input Bar ── */
-.testimony-input {
+.speaker-actions {
   display: flex;
+  align-items: center;
   gap: 10px;
-  padding: 14px 24px;
+}
+
+.speaker-requested {
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: #e8f1ff;
+  color: #2f5bb7;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.request-extra-btn {
+  width: 36px;
+  height: 36px;
+  border: 1px solid #cbd6ee;
+  border-radius: 50%;
   background: #ffffff;
-  border-top: 1px solid #e5ebf7;
-  flex-shrink: 0;
-}
-
-.testimony-input input {
-  flex: 1;
-  padding: 10px 14px;
-  border: 1px solid #d0d9ee;
-  border-radius: 8px;
-  font-size: 0.93rem;
-  color: #1d2b48;
-  background: #fafbff;
-  outline: none;
-  transition: border-color 0.2s;
-}
-
-.testimony-input input:focus {
-  border-color: var(--color-blue-primary);
-}
-
-.send-btn {
-  padding: 10px 18px;
-  border: none;
-  border-radius: 8px;
-  background: var(--color-blue-primary);
-  color: #ffffff;
-  font-size: 0.9rem;
-  font-weight: 600;
+  color: var(--color-blue-primary);
+  font-size: 1.2rem;
+  font-weight: 700;
   cursor: pointer;
-  white-space: nowrap;
-  transition: background-color 0.2s;
+  transition: transform 0.2s, background-color 0.2s;
 }
 
-.send-btn:hover {
-  background: #214fb5;
+.request-extra-btn:hover {
+  transform: translateY(-1px);
+  background-color: #eef4ff;
+}
+
+/* Vote panel */
+.vote-panel {
+  background: #ffffff;
+  border: 1px solid #e5ebf7;
+  border-radius: 20px;
+  padding: 24px;
+  display: grid;
+  gap: 20px;
+  box-shadow: 0 12px 30px rgba(14, 29, 52, 0.08);
+}
+
+.vote-header h3 {
+  margin: 0;
+  font-size: 1.05rem;
+  color: var(--color-dark-navy);
+}
+
+.vote-header p {
+  margin: 4px 0 0;
+  color: #5a6a8a;
+  font-size: 0.95rem;
+}
+
+.vote-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.vote-summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  color: #5a6a8a;
+  font-size: 0.92rem;
+}
+
+.vote-note {
+  color: #3d6dfc;
+  font-weight: 700;
+}
+
+/* Animations */
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(69, 110, 255, 0.15);
+  }
+  50% {
+    box-shadow: 0 0 0 16px rgba(69, 110, 255, 0.05);
+  }
 }
