@@ -42,7 +42,7 @@ const INITIAL_SPEAKERS = [
 
 const CURRENT_USER = { uid: '3', name: 'Sam', role: 'juror' };
 const START_SECONDS = 45;
-const EXTRA_SECONDS = 10;
+const EXTRA_SECONDS = 20;
 /* END NEW SECTION */
 
 function OpenFloor() {
@@ -59,7 +59,7 @@ function OpenFloor() {
   const [currentSpeakerId, setCurrentSpeakerId] = useState(INITIAL_SPEAKERS[0].uid);
   const [secondsRemaining, setSecondsRemaining] = useState(START_SECONDS);
   const [isVoteOpen, setIsVoteOpen] = useState(false);
-  const [votes, setVotes] = useState({ yes: 0, no: 0, castBy: [] });
+  const [votes, setVotes] = useState({ yes: 2, no: 1, castBy: ['1', '4'] });
   /* END NEW SECTION */
 
   const caseData = state?.caseData || {
@@ -311,7 +311,7 @@ function OpenFloor() {
                 Vote No
               </CourtButton>
               <CourtButton variant="primary" onClick={handleGrantExtraTime} disabled={!canGrantExtra}>
-                Grant +10 seconds
+                Grant +20 seconds
               </CourtButton>
               <CourtButton variant="secondary" onClick={moveToNextSpeaker}>
                 End Turn
