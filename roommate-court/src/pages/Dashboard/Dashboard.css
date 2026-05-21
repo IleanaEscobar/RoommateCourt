@@ -188,11 +188,12 @@
 }
 
 .dashboard-create-household-btn {
-	background: #7a4a1e;
+	background: var(--color-secondary);
 }
 
 .dashboard-create-household-btn:hover {
-	background: #5e3614;
+	transform: translateY(-1px);
+	box-shadow: 0 12px 24px var(--color-hover-shadow);
 }
 
 .household-modal-overlay {
@@ -233,21 +234,21 @@
 	right: 12px;
 	width: 30px;
 	height: 30px;
-	border: 1px solid #d3dcf1;
+	border: 1px solid var(--color-danger);
 	border-radius: 6px;
-	background: #ffffff;
-	color: #516489;
+	background: var(--color-danger);
+	color: #ffffff;
 	font-size: 1rem;
 	line-height: 1;
 	cursor: pointer;
 }
 
 .household-modal-close:hover {
-	background: #f4f7ff;
+	background: var(--color-danger-dark);
 }
 
 .household-modal-form {
-	margin-top: 18px;
+	margin-top: 24px;
 	display: flex;
 	flex-direction: column;
 	gap: 10px;
@@ -264,6 +265,7 @@
 	border: 1px solid #c8d4eb;
 	border-radius: 8px;
 	padding: 12px;
+	margin-bottom: 24px;
 	font-size: 1rem;
 	outline: none;
 	background: #ffffff;

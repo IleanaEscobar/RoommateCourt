@@ -36,7 +36,7 @@ code {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #4977e8;
+  color: var(--color-blue);
   text-decoration: none;
   transition: background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
   border: none;
@@ -51,7 +51,7 @@ code {
 
 .top-nav-icon:hover,
 .top-nav-icon.active {
-  background: #4977e8;
+  background: var(--color-primary);
   color: #ffffff;
   box-shadow: 0 4px 14px rgba(73, 119, 232, 0.35);
 }

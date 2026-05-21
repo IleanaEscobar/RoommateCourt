@@ -4,6 +4,7 @@ import { onAuthStateChanged } from 'firebase/auth';
 import { get, push, ref, set, update } from 'firebase/database';
 import { auth, rtdb } from '../../firebase';
 import './Dashboard.css';
+import CourtButton from '../../components/CourtButton/CourtButton';
 
 function deriveDisplayName(emailValue) {
 	const localPart = emailValue.split('@')[0] || 'Roommate';
@@ -384,9 +385,9 @@ function Dashboard() {
 					<Link to={`/dashboard/${uid}/case-submission/severe`} className="dashboard-case-button">
 						Start Severe Case
 					</Link>
-					<button
-						type="button"
-						className="dashboard-case-button dashboard-create-household-btn"
+					<CourtButton
+						variant="secondary"
+						className="dashboard-create-household-btn"
 						onClick={() => {
 							setModalTab('create');
 							setHouseholdError('');
@@ -397,7 +398,7 @@ function Dashboard() {
 						}}
 					>
 						Create Household
-					</button>
+					</CourtButton>
 				</div>
 
 				<div className="dashboard-divider" />

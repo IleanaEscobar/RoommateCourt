@@ -18,19 +18,6 @@
 	margin-bottom: 28px;
 }
 
-.hs-back-link {
-	display: inline-block;
-	margin-bottom: 16px;
-	font-size: 0.9rem;
-	font-weight: 600;
-	color: #4977e8;
-	text-decoration: none;
-}
-
-.hs-back-link:hover {
-	text-decoration: underline;
-}
-
 .hs-header h1 {
 	margin: 0;
 	font-size: 1.8rem;
@@ -84,9 +71,9 @@
 .hs-section {
 	display: flex;
 	flex-direction: column;
-	gap: 8px;
-	padding-bottom: 20px;
-	margin-bottom: 20px;
+	gap: 12px;
+	padding-bottom: 24px;
+	margin-bottom: 24px;
 	border-bottom: 1px solid #eef1f8;
 }
 
@@ -221,6 +208,7 @@
 }
 
 .hs-save-btn {
+	display: block;
 	width: 100%;
 	margin-top: 20px;
 	padding: 13px;
@@ -249,18 +237,17 @@
 	box-sizing: border-box;
 	margin-top: 12px;
 	padding: 13px;
-	border: 2px solid var(--color-primary, #4977e8);
 	border-radius: 8px;
-	background: transparent;
-	color: var(--color-primary, #4977e8);
+	color: #eef2fc;
+	background: var(--color-blue);
 	font-size: 1rem;
 	font-weight: 600;
 	text-align: center;
 	text-decoration: none;
 	cursor: pointer;
-	transition: background 0.2s ease, color 0.2s ease;
+	transition: border-color 0.15s ease, color 0.15s ease, background 0.15s ease;
 }
 
 .hs-punishments-btn:hover {
-	background: #eef2fc;
+	background: var(--color-primary);
 }
