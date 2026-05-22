@@ -3,12 +3,6 @@ import { app } from '../firebase';
 
 const db = getFirestore(app);
 
-/**
- * Subscribe to real-time notifications for a specific user
- * @param {string} userId - The user's ID
- * @param {function} callback - Callback function to receive notifications
- * @returns {function} Unsubscribe function
- */
 export const subscribeToNotifications = (userId, callback) => {
 	try {
 		const notificationsRef = collection(db, 'notifications');
@@ -20,11 +14,8 @@ export const subscribeToNotifications = (userId, callback) => {
 
 		const unsubscribe = onSnapshot(q, (querySnapshot) => {
 			const notifications = [];
-			querySnapshot.forEach((doc) => {
-				notifications.push({
-					id: doc.id,
-					...doc.data(),
-				});
+			querySnapshot.forEach((document) => {
+				notifications.push({ id: document.id, ...document.data() });
 			});
 			callback(notifications);
 		});
@@ -36,11 +27,6 @@ export const subscribeToNotifications = (userId, callback) => {
 	}
 };
 
-/**
- * Mark a notification as read
- * @param {string} notificationId - The notification document ID
- * @returns {Promise<void>}
- */
 export const markNotificationAsRead = async (notificationId) => {
 	try {
 		const notificationRef = doc(db, 'notifications', notificationId);
@@ -50,20 +36,10 @@ export const markNotificationAsRead = async (notificationId) => {
 	}
 };
 
-/**
- * Get the count of unread notifications
- * @param {array} notifications - Array of notification objects
- * @returns {number} Count of unread notifications
- */
 export const getUnreadCount = (notifications) => {
-	return notifications.filter((notif) => !notif.read).length;
+	return notifications.filter((n) => !n.read).length;
 };
 
-/**
- * Format notification message based on type
- * @param {object} notification - Notification object
- * @returns {object} Object with title and description
- */
 export const formatNotificationMessage = (notification) => {
 	const { type, caseTitle, accuserName } = notification;
 

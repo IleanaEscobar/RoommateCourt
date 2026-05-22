@@ -1,7 +1,7 @@
 import { initializeApp } from 'firebase/app';
 import { getAnalytics } from 'firebase/analytics';
 import { getAuth, GoogleAuthProvider } from 'firebase/auth';
-import { getDatabase } from "firebase/database";
+import { getDatabase } from 'firebase/database';
 import { getStorage } from 'firebase/storage';
 
 const firebaseConfig = {
@@ -12,7 +12,7 @@ const firebaseConfig = {
 	messagingSenderId: '351689798811',
 	appId: '1:351689798811:web:edf56fee634ff356bcc23e',
 	measurementId: 'G-2TNXPQJ300',
-	databaseURL: "https://roommate-court-default-rtdb.firebaseio.com",
+	databaseURL: 'https://roommate-court-default-rtdb.firebaseio.com',
 };
 
 const app = initializeApp(firebaseConfig);

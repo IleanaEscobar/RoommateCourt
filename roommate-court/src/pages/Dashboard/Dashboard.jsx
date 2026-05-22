@@ -3,6 +3,12 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import { onAuthStateChanged } from 'firebase/auth';
 import { get, push, ref, set, update } from 'firebase/database';
 import { auth, rtdb } from '../../firebase';
+import {
+	subscribeToNotifications,
+	markNotificationAsRead,
+	getUnreadCount,
+	formatNotificationMessage,
+} from '../../utils/notificationsService';
 import './Dashboard.css';
 
 function deriveDisplayName(emailValue) {
@@ -32,6 +38,9 @@ function Dashboard() {
 	const [createdHouseholdCode, setCreatedHouseholdCode] = useState('');
 	const [showCreateHouseholdModal, setShowCreateHouseholdModal] = useState(false);
 	const [inviteEmails, setInviteEmails] = useState('');
+	const [notifications, setNotifications] = useState([]);
+	const [showNotificationDropdown, setShowNotificationDropdown] = useState(false);
+	const unreadCount = getUnreadCount(notifications);
 
 	useEffect(() => {
 		const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -83,6 +92,12 @@ function Dashboard() {
 
 		return () => clearTimeout(timeoutId);
 	}, [showHouseholdSuccess]);
+
+	useEffect(() => {
+		if (!isAuthorized || !uid) return;
+		const unsubscribeNotifications = subscribeToNotifications(uid, setNotifications);
+		return () => unsubscribeNotifications();
+	}, [isAuthorized, uid]);
 
 	function generateHouseholdCode() {
 		const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
@@ -224,6 +239,69 @@ function Dashboard() {
 
 	return (
 		<div className="dashboard-page">
+			<div className="notification-bell-container">
+				<button
+					className="notification-bell"
+					onClick={() => setShowNotificationDropdown(!showNotificationDropdown)}
+					aria-label="Notifications"
+				>
+					🔔
+					{unreadCount > 0 && (
+						<span className="notification-badge">{unreadCount}</span>
+					)}
+				</button>
+
+				{showNotificationDropdown && (
+					<div className="notification-dropdown">
+						<div className="notification-dropdown-header">
+							<h3>Notifications</h3>
+							<button
+								className="close-dropdown"
+								onClick={() => setShowNotificationDropdown(false)}
+								aria-label="Close notifications"
+							>
+								✕
+							</button>
+						</div>
+						<div className="notification-dropdown-content">
+							{notifications.length === 0 ? (
+								<div className="no-notifications">
+									<p>No notifications yet</p>
+								</div>
+							) : (
+								<ul className="notifications-list">
+									{notifications.map((notification) => {
+										const { title, description, icon } =
+											formatNotificationMessage(notification);
+										return (
+											<li
+												key={notification.id}
+												className={`notification-item ${notification.read ? 'read' : 'unread'}`}
+												onClick={() => markNotificationAsRead(notification.id)}
+											>
+												<div className="notification-icon">{icon}</div>
+												<div className="notification-content">
+													<h4>{title}</h4>
+													<p>{description}</p>
+													<small className="notification-time">
+														{notification.createdAt &&
+															new Date(
+																notification.createdAt.toDate
+																	? notification.createdAt.toDate()
+																	: notification.createdAt
+															).toLocaleString()}
+													</small>
+												</div>
+											</li>
+										);
+									})}
+								</ul>
+							)}
+						</div>
+					</div>
+				)}
+			</div>
+
 			<nav className="top-nav">
 				<Link
 					to={`/dashboard/${uid}/household-settings`}

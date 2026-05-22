@@ -178,3 +178,48 @@
   color: var(--color-primary-light);
   line-height: 1.6;
 }
+/* ── Case Review additions ── */
+.docket-loading {
+  font-size: 1.1rem;
+  color: #5a6a8a;
+  margin-top: 80px;
+  text-align: center;
+}
+
+.submission-success-banner {
+  width: 100%;
+  max-width: 640px;
+  padding: 14px 20px;
+  background: #e6f4ea;
+  border: 1px solid #a8d5b5;
+  border-radius: 8px;
+  color: #1e6b36;
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.docket-qa {
+  margin-bottom: 14px;
+}
+
+.docket-question {
+  margin: 0 0 4px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #5a6a8a;
+}
+
+.docket-answer {
+  margin: 0;
+  font-size: 0.95rem;
+  color: #2d3a52;
+  line-height: 1.6;
+}
+
+.docket-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 28px;
+}

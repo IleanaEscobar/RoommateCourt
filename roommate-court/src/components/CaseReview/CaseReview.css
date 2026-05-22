@@ -1,0 +1,209 @@
+:root {
+	--color-dark-navy: #1d2b48;
+	--color-blue-primary: #2756d6;
+	--color-parchment: #faf7ee;
+}
+
+.case-review-page {
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding: 40px 24px;
+	background: linear-gradient(180deg, #f3f7ff 0%, #e8eefb 100%);
+	gap: 20px;
+}
+
+.docket-loading {
+	font-size: 1.1rem;
+	color: #5a6a8a;
+	margin-top: 80px;
+}
+
+/* ── Success Banner ── */
+.submission-success-banner {
+	width: 100%;
+	max-width: 640px;
+	padding: 14px 20px;
+	background: #e6f4ea;
+	border: 1px solid #a8d5b5;
+	border-radius: 8px;
+	color: #1e6b36;
+	font-weight: 600;
+	font-size: 0.95rem;
+	text-align: center;
+}
+
+/* ── Docket Panel ── */
+.docket-panel {
+	width: 100%;
+	max-width: 640px;
+	background: var(--color-parchment);
+	border: 2px solid #d6c98a;
+	border-radius: 4px;
+	padding: 40px 40px 32px;
+	box-shadow: 0 10px 30px rgba(14, 29, 52, 0.15);
+}
+
+.docket-header {
+	border-bottom: 2px solid #c9a84c;
+	padding-bottom: 16px;
+	margin-bottom: 24px;
+	text-align: center;
+}
+
+.docket-header-top {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 8px;
+}
+
+.court-title {
+	font-size: 0.7rem;
+	font-weight: 700;
+	letter-spacing: 0.15em;
+	color: var(--color-dark-navy);
+}
+
+.status-badge {
+	font-size: 0.65rem;
+	font-weight: 700;
+	letter-spacing: 0.08em;
+	color: #b8860b;
+	background: #fff8e1;
+	border: 1px solid #f0c040;
+	border-radius: 3px;
+	padding: 3px 8px;
+}
+
+.docket-case-id {
+	font-size: 1.4rem;
+	font-weight: 700;
+	color: var(--color-dark-navy);
+	letter-spacing: 0.05em;
+}
+
+.docket-caption {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 24px;
+	margin-bottom: 28px;
+	padding-bottom: 20px;
+	border-bottom: 1px solid #d6c98a;
+}
+
+.party-block {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 4px;
+}
+
+.party-role {
+	font-size: 0.65rem;
+	font-weight: 700;
+	letter-spacing: 0.12em;
+	color: #8898b5;
+}
+
+.party-name {
+	font-size: 1.1rem;
+	font-weight: 700;
+	color: var(--color-dark-navy);
+}
+
+.versus {
+	font-size: 1.2rem;
+	font-weight: 700;
+	color: #8898b5;
+	font-style: italic;
+}
+
+.docket-section {
+	margin-bottom: 20px;
+}
+
+.docket-section-label {
+	display: block;
+	font-size: 0.65rem;
+	font-weight: 700;
+	letter-spacing: 0.12em;
+	color: #8898b5;
+	margin-bottom: 8px;
+}
+
+.docket-section p {
+	margin: 0;
+	font-size: 0.95rem;
+	color: #2d3a52;
+	line-height: 1.6;
+}
+
+.docket-qa {
+	margin-bottom: 14px;
+}
+
+.docket-question {
+	margin: 0 0 4px;
+	font-size: 0.82rem;
+	font-weight: 600;
+	color: #5a6a8a;
+}
+
+.docket-answer {
+	margin: 0;
+	font-size: 0.95rem;
+	color: #2d3a52;
+	line-height: 1.6;
+}
+
+/* ── Actions ── */
+.docket-actions {
+	display: flex;
+	gap: 12px;
+	margin-top: 28px;
+}
+
+.court-btn {
+	flex: 1;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding: 12px 20px;
+	border: none;
+	border-radius: 8px;
+	font-size: 0.95rem;
+	font-weight: 600;
+	cursor: pointer;
+	transition: background-color 0.2s ease, opacity 0.2s ease;
+}
+
+.court-btn.primary {
+	background: var(--color-blue-primary);
+	color: #ffffff;
+}
+
+.court-btn.primary:hover {
+	background: #214fb5;
+}
+
+.court-btn.secondary {
+	background: #e8eefb;
+	color: var(--color-dark-navy);
+}
+
+.court-btn.secondary:hover {
+	background: #d5dff5;
+}
+
+@media (max-width: 600px) {
+	.docket-panel {
+		padding: 24px 20px;
+	}
+
+	.docket-actions {
+		flex-direction: column;
+	}
+}

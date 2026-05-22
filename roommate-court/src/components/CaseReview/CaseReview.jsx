@@ -3,7 +3,6 @@ import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { ref, get } from 'firebase/database';
 import { onAuthStateChanged } from 'firebase/auth';
 import { rtdb, auth } from '../../firebase';
-import CourtButton from '../../components/CourtButton/CourtButton';
 import './CaseReview.css';
 
 function CaseReview() {
@@ -44,6 +43,7 @@ function CaseReview() {
 
 				const caseInfo = caseSnap.val();
 				const submission = submissionSnap.exists() ? submissionSnap.val() : {};
+
 				setCaseData({ ...caseInfo, submission, id: caseId });
 			} catch {
 				navigate('/', { replace: true });
@@ -129,12 +129,12 @@ function CaseReview() {
 				)}
 
 				<div className="docket-actions">
-					<CourtButton variant="secondary" onClick={handleBackToDashboard}>
+					<button className="court-btn secondary" onClick={handleBackToDashboard}>
 						Back to Dashboard
-					</CourtButton>
-					<CourtButton variant="primary" onClick={handleOpenCourt}>
+					</button>
+					<button className="court-btn primary" onClick={handleOpenCourt}>
 						Open the Court
-					</CourtButton>
+					</button>
 				</div>
 			</div>
 		</div>
