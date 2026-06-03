@@ -5,6 +5,7 @@ import { get, ref, update } from 'firebase/database';
 import { getDownloadURL, ref as storageRef, uploadBytes } from 'firebase/storage';
 import { auth, rtdb, storage } from '../../firebase';
 import './Settings.css';
+import BackButton from '../../components/BackButton/BackButton';
 
 function Settings() {
 	const navigate = useNavigate();
@@ -152,19 +153,19 @@ function Settings() {
 
 			<div className="settings-main">
 				<div className="settings-card">
-					<div className="settings-header">
-						<Link to={`/dashboard/${uid}`} className="settings-back-link">
-							&#8592; Back to Dashboard
-						</Link>
-						<h1>Settings</h1>
-						<p className="settings-subtitle">Manage your profile and account details.</p>
-					</div>
-
 					{saveSuccess && (
 						<div className="settings-success-banner" role="status" aria-live="polite">
 							Profile updated successfully.
 						</div>
 					)}
+
+					<div className="settings-header">
+					<BackButton to={`/dashboard/${uid}`}>
+						Back to Dashboard
+					</BackButton>
+					<h1>Settings</h1>
+					<p className="settings-subtitle">Manage your profile and account details.</p>
+				</div>
 
 					<form onSubmit={handleSave} className="settings-form">
 						<div className="settings-photo-section">

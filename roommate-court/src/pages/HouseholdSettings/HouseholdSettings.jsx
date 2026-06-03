@@ -4,6 +4,7 @@ import { onAuthStateChanged } from 'firebase/auth';
 import { get, ref, update } from 'firebase/database';
 import { auth, rtdb } from '../../firebase';
 import './HouseholdSettings.css';
+import BackButton from '../../components/BackButton/BackButton';
 
 function HouseholdSettings() {
 	const navigate = useNavigate();
@@ -200,9 +201,9 @@ function HouseholdSettings() {
 
 			<div className="hs-main">
 				<div className="hs-header">
-					<Link to={`/dashboard/${uid}`} className="hs-back-link">
-						&#8592; Back to Dashboard
-					</Link>
+					<BackButton to={`/dashboard/${uid}`}>
+						Back to Dashboard
+					</BackButton>
 					<h1>Household Settings</h1>
 					<p className="hs-subtitle">Changes apply to all members of the household.</p>
 					<div className="hs-join-controls">
