@@ -379,6 +379,10 @@ function CaseSubmission() {
 				[`users/${uid}/cases/${caseId}`]: true
 			};
 
+			Object.keys(caseUsers).forEach((memberId) => {
+				updates[`users/${memberId}/cases/${caseId}`] = true;
+			});
+
 			await update(ref(rtdb), updates);
 
 			const notifiedMemberIds = Object.keys(caseUsers).filter((memberId) => memberId !== uid);

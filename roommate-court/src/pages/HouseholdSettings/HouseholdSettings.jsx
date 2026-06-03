@@ -333,6 +333,13 @@ function HouseholdSettings() {
 						>
 							Edit Courtroom Punishments
 						</Link>
+
+						<Link
+							to={`/dashboard/${uid}/household/${household.id}/history`}
+							className="hs-history-btn"
+						>
+							View Household Case History
+						</Link>
 					</div>
 				))}
 			</div>
