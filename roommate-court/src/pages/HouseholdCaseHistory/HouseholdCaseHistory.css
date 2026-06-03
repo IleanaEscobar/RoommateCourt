@@ -1,0 +1,147 @@
+.household-history-page {
+	min-height: 100vh;
+	background: linear-gradient(180deg, #f3f7ff 0%, #e8eefb 100%);
+}
+
+.household-history-main {
+	max-width: 760px;
+	margin: 0 auto;
+	padding: 36px 20px 48px;
+	box-sizing: border-box;
+}
+
+.history-back-link {
+	display: inline-block;
+	margin-bottom: 14px;
+	font-size: 0.92rem;
+	font-weight: 600;
+	color: #4977e8;
+	text-decoration: none;
+}
+
+.history-back-link:hover {
+	text-decoration: underline;
+}
+
+.household-history-header h1 {
+	margin: 0;
+	font-size: 1.8rem;
+	color: #1d2b48;
+}
+
+.household-history-header p {
+	margin: 6px 0 0;
+	font-size: 0.95rem;
+	color: #4b5b7c;
+}
+
+.history-empty-state {
+	margin-top: 20px;
+	background: #ffffff;
+	border: 1px solid #e5ebf7;
+	border-radius: 12px;
+	padding: 28px;
+	color: #4b5b7c;
+	box-shadow: 0 10px 30px rgba(14, 29, 52, 0.08);
+}
+
+.history-list {
+	list-style: none;
+	padding: 0;
+	margin: 20px 0 0;
+	display: flex;
+	flex-direction: column;
+	gap: 14px;
+}
+
+.history-case-card {
+	background: #ffffff;
+	border: 1px solid #e5ebf7;
+	border-radius: 12px;
+	padding: 16px;
+	box-shadow: 0 8px 22px rgba(14, 29, 52, 0.08);
+}
+
+.history-case-top {
+	display: flex;
+	align-items: flex-start;
+	justify-content: space-between;
+	gap: 12px;
+	margin-bottom: 8px;
+}
+
+.history-case-top h2 {
+	margin: 0;
+	font-size: 1.08rem;
+	color: #1d2b48;
+}
+
+.history-verdict {
+	display: inline-flex;
+	align-items: center;
+	border-radius: 999px;
+	padding: 4px 10px;
+	font-size: 0.78rem;
+	font-weight: 700;
+	white-space: nowrap;
+	text-transform: uppercase;
+	letter-spacing: 0.03em;
+}
+
+.verdict-guilty {
+	background: #ffe8e6;
+	color: #b42318;
+}
+
+.verdict-not_guilty {
+	background: #e8f7ee;
+	color: #18633a;
+}
+
+.verdict-no_fault {
+	background: #eef2fc;
+	color: #2f4f9f;
+}
+
+.verdict-pending {
+	background: #f3f4f6;
+	color: #4b5563;
+}
+
+.history-meta {
+	margin: 4px 0;
+	font-size: 0.92rem;
+	color: #33435f;
+}
+
+.history-vote-btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	margin-top: 10px;
+	padding: 8px 12px;
+	border-radius: 8px;
+	border: 1px solid #89a3d8;
+	background: #eef4ff;
+	color: #2f4f9f;
+	font-size: 0.88rem;
+	font-weight: 700;
+	text-decoration: none;
+	transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.history-vote-btn:hover {
+	background: #e4edff;
+	border-color: #5e7ec4;
+}
+
+@media (max-width: 640px) {
+	.household-history-main {
+		padding: 28px 14px 40px;
+	}
+
+	.history-case-top {
+		flex-direction: column;
+		align-items: flex-start;
+	}
+}

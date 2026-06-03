@@ -1,4 +1,4 @@
-import { getFirestore, collection, query, where, onSnapshot, updateDoc, doc, orderBy } from 'firebase/firestore';
+import { getFirestore, collection, query, where, onSnapshot, updateDoc, doc } from 'firebase/firestore';
 import { app } from '../firebase';
 
 const db = getFirestore(app);
@@ -6,16 +6,17 @@ const db = getFirestore(app);
 export const subscribeToNotifications = (userId, callback) => {
 	try {
 		const notificationsRef = collection(db, 'notifications');
-		const q = query(
-			notificationsRef,
-			where('recipientId', '==', userId),
-			orderBy('createdAt', 'desc')
-		);
+		const q = query(notificationsRef, where('recipientId', '==', userId));
 
 		const unsubscribe = onSnapshot(q, (querySnapshot) => {
 			const notifications = [];
 			querySnapshot.forEach((document) => {
 				notifications.push({ id: document.id, ...document.data() });
+			});
+			notifications.sort((left, right) => {
+				const leftTime = left.createdAt?.toDate ? left.createdAt.toDate().getTime() : 0;
+				const rightTime = right.createdAt?.toDate ? right.createdAt.toDate().getTime() : 0;
+				return rightTime - leftTime;
 			});
 			callback(notifications);
 		});
@@ -47,7 +48,7 @@ export const formatNotificationMessage = (notification) => {
 		case 'case_filed':
 			return {
 				title: 'New Case Filed',
-				description: `${accuserName} has filed a case against you: "${caseTitle}"`,
+					description: `${accuserName} filed a case in your household: "${caseTitle}". Tap to check in.`,
 				icon: '⚖️',
 			};
 		case 'jury_selected':

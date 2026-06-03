@@ -152,6 +152,24 @@
   color: var(--color-primary-light);
 }
 
+.party-defendant-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+  max-width: 220px;
+}
+
+.party-defendant-chip {
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--color-secondary-light);
+  background: rgba(196, 212, 237, 0.12);
+  color: var(--color-primary-light);
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
 .versus {
   font-size: 1.2rem;
   font-weight: 700;

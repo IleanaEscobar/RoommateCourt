@@ -499,6 +499,14 @@
 	display: block;
 }
 
+.notification-link-hint {
+	color: #2b63df;
+	font-size: 0.75rem;
+	font-weight: 700;
+	display: block;
+	margin-bottom: 2px;
+}
+
 .notification-item.read .notification-content h4 { color: #9ca3b8; font-weight: 500; }
 .notification-item.read .notification-content p { color: #b8bfd0; }
 

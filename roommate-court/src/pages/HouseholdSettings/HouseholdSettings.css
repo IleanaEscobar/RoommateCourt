@@ -43,6 +43,88 @@
 	font-size: 0.95rem;
 }
 
+.hs-join-controls {
+	margin-top: 14px;
+}
+
+.hs-join-toggle-btn {
+	border: 1px solid #c8d4eb;
+	border-radius: 8px;
+	padding: 10px 14px;
+	background: #ffffff;
+	color: #4977e8;
+	font-size: 0.92rem;
+	font-weight: 600;
+	cursor: pointer;
+	transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.hs-join-toggle-btn:hover {
+	background: #eef2fc;
+	border-color: #4977e8;
+}
+
+.hs-join-form {
+	margin-top: 14px;
+	padding: 14px;
+	border: 1px solid #e5ebf7;
+	border-radius: 10px;
+	background: #ffffff;
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+.hs-join-form label {
+	font-weight: 600;
+	font-size: 0.9rem;
+	color: #2b3d5f;
+}
+
+.hs-join-form input {
+	border: 1px solid #c8d4eb;
+	border-radius: 8px;
+	padding: 11px;
+	font-size: 1rem;
+	outline: none;
+	background: #ffffff;
+	transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.hs-join-form input:focus {
+	border-color: #4977e8;
+	box-shadow: 0 0 0 3px rgba(73, 119, 232, 0.15);
+}
+
+.hs-join-submit {
+	margin-top: 2px;
+	border: none;
+	border-radius: 8px;
+	padding: 11px;
+	font-size: 0.95rem;
+	font-weight: 600;
+	color: #ffffff;
+	background: var(--color-secondary);
+	cursor: pointer;
+	transition: background-color 0.2s ease, opacity 0.2s ease;
+}
+
+.hs-join-submit:hover:not(:disabled) {
+	background: var(--color-secondary-dark);
+}
+
+.hs-join-submit:disabled {
+	opacity: 0.7;
+	cursor: not-allowed;
+}
+
+.hs-join-success {
+	margin: 2px 0;
+	color: #1c6b3c;
+	font-size: 0.9rem;
+	font-weight: 600;
+}
+
 .hs-empty {
 	background: #ffffff;
 	border: 1px solid #e5ebf7;
@@ -263,4 +345,27 @@
 
 .hs-punishments-btn:hover {
 	background: #eef2fc;
+}
+
+.hs-history-btn {
+	display: block;
+	width: 100%;
+	box-sizing: border-box;
+	margin-top: 10px;
+	padding: 12px;
+	border: 1px solid #c8d4eb;
+	border-radius: 8px;
+	background: #ffffff;
+	color: #2f4f9f;
+	font-size: 0.95rem;
+	font-weight: 600;
+	text-align: center;
+	text-decoration: none;
+	cursor: pointer;
+	transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.hs-history-btn:hover {
+	background: #f4f8ff;
+	border-color: #90a8db;
 }

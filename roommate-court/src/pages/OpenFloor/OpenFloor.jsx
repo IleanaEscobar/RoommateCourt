@@ -1,117 +1,174 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
+import { onAuthStateChanged } from 'firebase/auth';
+import { get, ref } from 'firebase/database';
+import { auth, rtdb } from '../../firebase';
 import './OpenFloor.css';
 import CourtButton from '../../components/CourtButton/CourtButton';
 
-// const MOCK_MESSAGES = [
-//   {
-//     id: '1',
-//     uid: '1',
-//     name: 'Alex',
-//     role: 'plaintiff',
-//     text: 'I want to address the ongoing issue with dishes being left in the sink. This has been happening repeatedly for the past two weeks and it is affecting the whole household.',
-//     time: '9:02 AM',
-//   },
-//   {
-//     id: '2',
-//     uid: '2',
-//     name: 'Jordan',
-//     role: 'defendant',
-//     text: "I understand the concern, but I was away for work last week. I don't think it's fair to put this entirely on me.",
-//     time: '9:05 AM',
-//   },
-//   {
-//     id: '3',
-//     uid: '3',
-//     name: 'Sam',
-//     role: 'juror',
-//     text: 'For the record, I can confirm I saw dishes in the sink on Monday, Wednesday, and Friday of last week.',
-//     time: '9:07 AM',
-//   },
-// ];
-
-// const CURRENT_USER = { uid: '1', name: 'Alex', role: 'plaintiff' };
-
-/* Initialize speakers */
-const INITIAL_SPEAKERS = [
-  { uid: '1', name: 'Alex', role: 'plaintiff', status: 'waiting', extraRequested: false },
-  { uid: '2', name: 'Jordan', role: 'defendant', status: 'waiting', extraRequested: false },
-  { uid: '3', name: 'Sam', role: 'juror', status: 'waiting', extraRequested: false },
-  { uid: '4', name: 'Eden', role: 'juror', status: 'waiting', extraRequested: false },
-];
-
-const CURRENT_USER = { uid: '3', name: 'Sam', role: 'juror' };
 const START_SECONDS = 45;
 const EXTRA_SECONDS = 20;
-/* END NEW SECTION */
+
+function resolveCaseMembers(caseInfo, currentUserId, routeStateUid, memberProfiles) {
+  const memberIds = Object.keys(memberProfiles);
+  const fallbackPlaintiffId = routeStateUid || currentUserId || memberIds[0] || '';
+  const plaintiffId = caseInfo.filedBy || fallbackPlaintiffId;
+  const configuredDefendantIds = Array.isArray(caseInfo.defendantIds)
+    ? caseInfo.defendantIds.filter((memberId) => memberId !== plaintiffId)
+    : [];
+  const fallbackDefendantId = memberIds.find((memberId) => memberId !== plaintiffId) || plaintiffId;
+  const defendantIds = configuredDefendantIds.length > 0 ? configuredDefendantIds : [fallbackDefendantId];
+  const defendantNames = defendantIds.map(
+    (defendantId) => memberProfiles[defendantId]?.name || `User ${defendantId.slice(0, 6)}`
+  );
+
+  const orderedIds = [
+    plaintiffId,
+    ...defendantIds,
+    ...memberIds.filter((id) => id !== plaintiffId && !defendantIds.includes(id))
+  ];
+
+  const speakers = orderedIds.map((memberId, index) => ({
+    uid: memberId,
+    name: memberProfiles[memberId]?.name || `User ${memberId.slice(0, 6)}`,
+    role: memberId === plaintiffId ? 'plaintiff' : defendantIds.includes(memberId) ? 'defendant' : 'juror',
+    status: index === 0 ? 'speaking' : 'waiting',
+    extraRequested: false,
+  }));
+
+  return {
+    speakers,
+    caseData: {
+      title: caseInfo.title || 'Untitled Case',
+      plaintiff: memberProfiles[plaintiffId]?.name || 'Plaintiff',
+      defendants: defendantNames,
+    },
+  };
+}
 
 function OpenFloor() {
   const navigate = useNavigate();
   const { caseId } = useParams();
   const { state } = useLocation();
 
-  // const [messages, setMessages] = useState(MOCK_MESSAGES);
-  // const [inputText, setInputText] = useState('');
-  // const messagesEndRef = useRef(null);
-
-  /* Create speaker objects */
-  const [speakers, setSpeakers] = useState(INITIAL_SPEAKERS);
-  const [currentSpeakerId, setCurrentSpeakerId] = useState(INITIAL_SPEAKERS[0].uid);
+  const [currentUserUid, setCurrentUserUid] = useState('');
+  const [speakers, setSpeakers] = useState([]);
+  const [currentSpeakerId, setCurrentSpeakerId] = useState(null);
   const [secondsRemaining, setSecondsRemaining] = useState(START_SECONDS);
   const [isVoteOpen, setIsVoteOpen] = useState(false);
-  const [votes, setVotes] = useState({ yes: 2, no: 1, castBy: ['1', '4'] });
-  /* END NEW SECTION */
+  const [votes, setVotes] = useState({ yes: 0, no: 0, castBy: [] });
+  const [caseData, setCaseData] = useState({
+    title: 'Untitled Case',
+    plaintiff: 'Plaintiff',
+    defendants: [],
+  });
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState('');
 
-  const caseData = state?.caseData || {
-    title: 'Dishes Left in Sink',
-    plaintiff: 'Alex',
-    defendant: 'Jordan',
-  };
+  useEffect(() => {
+    let isMounted = true;
 
-  // useEffect(() => {
-  //   messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  // }, [messages]);
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      const loadOpenFloor = async () => {
+        if (!user) {
+          navigate('/', { replace: true });
+          return;
+        }
 
-  // const handleSend = (e) => {
-  //   e.preventDefault();
-  //   if (!inputText.trim()) return;
-  //   setMessages(prev => [
-  //     ...prev,
-  //     {
-  //       id: Date.now().toString(),
-  //       uid: CURRENT_USER.uid,
-  //       name: CURRENT_USER.name,
-  //       role: CURRENT_USER.role,
-  //       text: inputText.trim(),
-  //       time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-  //     },
-  //   ]);
-  //   setInputText('');
-  // };
+        setCurrentUserUid(user.uid);
+        setIsLoading(true);
+        setError('');
 
-  /* Declare active speaker */
+        try {
+          const caseSnapshot = await get(ref(rtdb, `cases/${caseId}`));
+
+          if (!caseSnapshot.exists()) {
+            if (isMounted) {
+              setError('Case not found.');
+            }
+            return;
+          }
+
+          const caseInfo = caseSnapshot.val();
+          let memberIds = [];
+
+          if (caseInfo.householdId) {
+            const householdMembersSnapshot = await get(ref(rtdb, `households/${caseInfo.householdId}/members`));
+            if (householdMembersSnapshot.exists()) {
+              memberIds = Object.keys(householdMembersSnapshot.val());
+            }
+          }
+
+          if (memberIds.length === 0) {
+            memberIds = Object.keys(caseInfo.users || {});
+          }
+
+          if (memberIds.length === 0) {
+            if (isMounted) {
+              setError('No roommates found for this case.');
+            }
+            return;
+          }
+
+          const memberProfilesArray = await Promise.all(
+            memberIds.map(async (memberId) => {
+              const memberNameSnapshot = await get(ref(rtdb, `users/${memberId}/name`));
+              return {
+                id: memberId,
+                name: memberNameSnapshot.exists() ? memberNameSnapshot.val() : `User ${memberId.slice(0, 6)}`,
+              };
+            })
+          );
+
+          const memberProfiles = memberProfilesArray.reduce((acc, member) => {
+            acc[member.id] = member;
+            return acc;
+          }, {});
+
+          const resolved = resolveCaseMembers(caseInfo, user.uid, state?.uid, memberProfiles);
+
+          if (isMounted) {
+            setSpeakers(resolved.speakers);
+            setCurrentSpeakerId(resolved.speakers[0]?.uid || null);
+            setCaseData(resolved.caseData);
+          }
+        } catch {
+          if (isMounted) {
+            setError('Unable to load courtroom participants.');
+          }
+        } finally {
+          if (isMounted) {
+            setIsLoading(false);
+          }
+        }
+      };
+
+      loadOpenFloor();
+    });
+
+    return () => {
+      isMounted = false;
+      unsubscribe();
+    };
+  }, [caseId, navigate, state?.uid]);
+
   const activeSpeaker = speakers.find((speaker) => speaker.uid === currentSpeakerId);
-  /* END NEW SECTION */
 
   const handleCloseFloor = () => {
     navigate(`/case/${caseId}/voting`, { state });
   };
 
-  const getRoleBadgeClass = (role) => {
-    if (role === 'plaintiff') return 'badge-plaintiff';
-    if (role === 'defendant') return 'badge-defendant';
-    return 'badge-juror';
+  const handleBackToDashboard = () => {
+    if (currentUserUid) {
+      navigate(`/dashboard/${currentUserUid}`);
+      return;
+    }
+
+    navigate('/');
   };
 
-  // const getMessageClass = (role) => {
-  //   if (role === 'plaintiff') return 'message-plaintiff';
-  //   if (role === 'defendant') return 'message-defendant';
-  //   return 'message-juror';
-  // };
-
-  /* Implement real-time timer */
   useEffect(() => {
-    if (!currentSpeakerId || isVoteOpen) return;
+    if (!currentSpeakerId || isVoteOpen || isLoading || error) return;
     if (secondsRemaining <= 0) return;
 
     const interval = setInterval(() => {
@@ -119,7 +176,7 @@ function OpenFloor() {
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [currentSpeakerId, secondsRemaining, isVoteOpen]);
+  }, [currentSpeakerId, secondsRemaining, isVoteOpen, isLoading, error]);
 
   useEffect(() => {
     if (secondsRemaining === 0 && currentSpeakerId && !isVoteOpen) {
@@ -170,17 +227,17 @@ function OpenFloor() {
   };
 
   const handleVote = (choice) => {
-    if (votes.castBy.includes(CURRENT_USER.uid)) return;
+    if (!currentUserUid || votes.castBy.includes(currentUserUid)) return;
 
     setVotes((prev) => ({
       yes: choice === 'yes' ? prev.yes + 1 : prev.yes,
       no: choice === 'no' ? prev.no + 1 : prev.no,
-      castBy: [...prev.castBy, CURRENT_USER.uid],
+      castBy: [...prev.castBy, currentUserUid],
     }));
   };
 
   const handleRequestExtraTurn = (uid) => {
-    if (uid !== CURRENT_USER.uid || uid === currentSpeakerId) return;
+    if (uid !== currentUserUid || uid === currentSpeakerId) return;
 
     setSpeakers((prev) =>
       prev.map((speaker) =>
@@ -191,50 +248,61 @@ function OpenFloor() {
 
   const voteThreshold = Math.ceil(speakers.length / 2);
   const canGrantExtra = votes.yes >= voteThreshold;
-  /* END NEW SECTION */
+
+  if (isLoading) {
+    return (
+      <div className="open-floor-page">
+        <div className="floor-header">
+          <h1 className="floor-title">Loading courtroom...</h1>
+          <CourtButton variant="secondary" onClick={handleBackToDashboard}>
+            Back to Dashboard
+          </CourtButton>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="open-floor-page">
+        <div className="floor-header">
+          <h1 className="floor-title">{error}</h1>
+          <CourtButton variant="secondary" onClick={handleBackToDashboard}>
+            Back to Dashboard
+          </CourtButton>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="open-floor-page">
       <div className="floor-header">
         <div className="floor-caption">
-          <span className="case-vs">{caseData.plaintiff} v. {caseData.defendant}</span>
+          <span className="case-vs">{caseData.plaintiff} v.</span>
+          <div className="case-defendant-list">
+            {caseData.defendants.length > 0 ? (
+              caseData.defendants.map((name) => (
+                <span className="case-defendant-chip" key={name}>
+                  {name}
+                </span>
+              ))
+            ) : (
+              <span className="case-defendant-chip">Defendant</span>
+            )}
+          </div>
           <span className="case-id-label">Case #{caseId?.toUpperCase()}</span>
         </div>
         <h1 className="floor-title">Speak your truth!</h1>
-        <button className="close-floor-btn" onClick={handleCloseFloor}>
-          Close the Floor
-        </button>
+        <div className="floor-header-actions">
+          <CourtButton variant="secondary" onClick={handleBackToDashboard}>
+            Back to Dashboard
+          </CourtButton>
+          <button className="close-floor-btn" onClick={handleCloseFloor}>
+            Close the Floor
+          </button>
+        </div>
       </div>
-
-      {/* <div className="messages-thread">
-        {messages.map(msg => (
-          <div key={msg.id} className={`message-bubble ${getMessageClass(msg.role)}`}>
-            <div className="message-meta">
-              <span className="message-avatar">{msg.name[0]}</span>
-              <span className="message-name">{msg.name}</span>
-              <span className={`role-badge ${getRoleBadgeClass(msg.role)}`}>
-                {msg.role.charAt(0).toUpperCase() + msg.role.slice(1)}
-              </span>
-              <span className="message-time">{msg.time}</span>
-            </div>
-            <p className="message-text">{msg.text}</p>
-          </div>
-        ))}
-        <div ref={messagesEndRef} />
-      </div>
-
-      <form className="testimony-input" onSubmit={handleSend}>
-        <input
-          type="text"
-          value={inputText}
-          onChange={e => setInputText(e.target.value)}
-          placeholder="State your testimony..."
-          autoComplete="off"
-        />
-        <button type="submit" className="send-btn">
-          Submit Testimony
-        </button>
-      </form> */}
 
       <div className="floor-body">
         <section className="timer-card">
@@ -267,7 +335,7 @@ function OpenFloor() {
                   <div className="speaker-avatar">{speaker.name[0]}</div>
                   <div>
                     <div className="speaker-name">
-                      {speaker.name} {speaker.uid === CURRENT_USER.uid ? '(You)' : ''}
+                      {speaker.name} {speaker.uid === currentUserUid ? '(You)' : ''}
                     </div>
                     <div className="speaker-status">
                       {speaker.status === 'speaking' && 'Speaking now'}
@@ -279,7 +347,7 @@ function OpenFloor() {
 
                 <div className="speaker-actions">
                   {speaker.extraRequested && <span className="speaker-requested">+ Requested</span>}
-                  {speaker.uid === CURRENT_USER.uid &&
+                  {speaker.uid === currentUserUid &&
                     speaker.status === 'waiting' &&
                     !speaker.extraRequested && (
                       <button
@@ -304,10 +372,10 @@ function OpenFloor() {
             </div>
 
             <div className="vote-controls">
-              <CourtButton variant="secondary" onClick={() => handleVote('yes')} disabled={votes.castBy.includes(CURRENT_USER.uid)}>
+              <CourtButton variant="secondary" onClick={() => handleVote('yes')} disabled={votes.castBy.includes(currentUserUid)}>
                 Vote Yes
               </CourtButton>
-              <CourtButton variant="secondary" onClick={() => handleVote('no')} disabled={votes.castBy.includes(CURRENT_USER.uid)}>
+              <CourtButton variant="secondary" onClick={() => handleVote('no')} disabled={votes.castBy.includes(currentUserUid)}>
                 Vote No
               </CourtButton>
               <CourtButton variant="primary" onClick={handleGrantExtraTime} disabled={!canGrantExtra}>
@@ -322,7 +390,7 @@ function OpenFloor() {
               <span>YES Votes: {votes.yes}</span>
               <span>NO Votes: {votes.no}</span>
               <span>*Need {voteThreshold} yes votes to grant extra time</span>
-              {votes.castBy.includes(CURRENT_USER.uid) && (
+              {votes.castBy.includes(currentUserUid) && (
                 <span className="vote-note">You have already voted.</span>
               )}
             </div>

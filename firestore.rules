@@ -1,0 +1,21 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /notifications/{notificationId} {
+      allow create: if request.auth != null
+        && request.resource.data.recipientId is string
+        && request.resource.data.type is string
+        && request.resource.data.caseId is string;
+
+      allow read, list: if request.auth != null
+        && resource.data.recipientId == request.auth.uid;
+
+      allow update: if request.auth != null
+        && resource.data.recipientId == request.auth.uid;
+
+      allow delete: if request.auth != null
+        && resource.data.recipientId == request.auth.uid;
+    }
+  }
+}

@@ -37,7 +37,6 @@ function Dashboard() {
 	const [isSavingJoin, setIsSavingJoin] = useState(false);
 	const [createdHouseholdCode, setCreatedHouseholdCode] = useState('');
 	const [showCreateHouseholdModal, setShowCreateHouseholdModal] = useState(false);
-	const [inviteEmails, setInviteEmails] = useState('');
 	const [notifications, setNotifications] = useState([]);
 	const [showNotificationDropdown, setShowNotificationDropdown] = useState(false);
 	const unreadCount = getUnreadCount(notifications);
@@ -108,44 +107,12 @@ function Dashboard() {
 		return code;
 	}
 
-	function parseInviteEmails(rawValue) {
-		if (!rawValue.trim()) {
-			return [];
-		}
-
-		const uniqueEmails = Array.from(
-			new Set(
-				rawValue
-					.split(',')
-					.map((email) => email.trim().toLowerCase())
-					.filter(Boolean)
-			)
-		);
-		const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-		const invalidEmail = uniqueEmails.find((email) => !emailPattern.test(email));
-
-		if (invalidEmail) {
-			throw new Error('Please use valid emails separated by commas.');
-		}
-
-		return uniqueEmails;
-	}
-
 	const handleCreateHousehold = async (event) => {
 		event.preventDefault();
 		setHouseholdError('');
 
 		if (!householdName.trim()) {
 			setHouseholdError('Please provide a household name.');
-			return;
-		}
-
-		let invitedEmails = [];
-
-		try {
-			invitedEmails = parseInviteEmails(inviteEmails);
-		} catch (error) {
-			setHouseholdError(error.message || 'Please review the invite emails.');
 			return;
 		}
 
@@ -165,8 +132,7 @@ function Dashboard() {
 					name: householdName.trim(),
 					members: { [uid]: true },
 					sentencingSeverity,
-					code,
-					invitedEmails
+					code
 				},
 				[`householdCodes/${code}`]: householdId,
 				[`users/${uid}/households/${householdId}`]: true
@@ -177,7 +143,6 @@ function Dashboard() {
 			setShowCreateHouseholdModal(false);
 			setShowHouseholdSuccess(true);
 			setHouseholdName('');
-			setInviteEmails('');
 		} catch (error) {
 			setHouseholdError('Unable to create household. Please try again.');
 		} finally {
@@ -230,6 +195,15 @@ function Dashboard() {
 		}
 	};
 
+	const handleNotificationClick = async (notification) => {
+		await markNotificationAsRead(notification.id);
+
+		if (notification.targetPath) {
+			setShowNotificationDropdown(false);
+			navigate(notification.targetPath, { state: { uid } });
+		}
+	};
+
 	if (!isAuthorized || isLoadingProfile) {
 		return null;
 	}
@@ -277,12 +251,23 @@ function Dashboard() {
 											<li
 												key={notification.id}
 												className={`notification-item ${notification.read ? 'read' : 'unread'}`}
-												onClick={() => markNotificationAsRead(notification.id)}
+												onClick={() => handleNotificationClick(notification)}
+												onKeyDown={(event) => {
+													if (event.key === 'Enter' || event.key === ' ') {
+														event.preventDefault();
+														handleNotificationClick(notification);
+													}
+												}}
+												role="button"
+												tabIndex={0}
 											>
 												<div className="notification-icon">{icon}</div>
 												<div className="notification-content">
 													<h4>{title}</h4>
 													<p>{description}</p>
+													{notification.targetPath && (
+														<small className="notification-link-hint">Open waiting room</small>
+													)}
 													<small className="notification-time">
 														{notification.createdAt &&
 															new Date(
@@ -345,7 +330,7 @@ function Dashboard() {
 						<p>
 							{mustCreateHousehold
 								? 'Create a new household or join an existing one with a code.'
-								: 'Choose the sentencing severity and optionally add invite emails.'
+								: 'Choose the sentencing severity for your household.'
 							}
 						</p>
 						{showJoinTab && (
@@ -389,15 +374,6 @@ function Dashboard() {
 									<option value="moderate">Moderate</option>
 									<option value="severe">Severe</option>
 								</select>
-
-								<label htmlFor="inviteEmails">Add users by email (optional)</label>
-								<input
-									id="inviteEmails"
-									type="text"
-									value={inviteEmails}
-									onChange={(event) => setInviteEmails(event.target.value)}
-									placeholder="roommate1@email.com, roommate2@email.com"
-								/>
 
 								{householdError && <p className="household-modal-error">{householdError}</p>}
 
@@ -470,7 +446,6 @@ function Dashboard() {
 							setHouseholdError('');
 							setJoinError('');
 							setHouseholdName('');
-							setInviteEmails('');
 							setShowCreateHouseholdModal(true);
 						}}
 					>

@@ -12,6 +12,7 @@ import JuryVoting from './pages/JuryVoting/JuryVoting';
 import Settings from './pages/Settings/Settings';
 import HouseholdSettings from './pages/HouseholdSettings/HouseholdSettings';
 import CourtroomPunishments from './pages/CourtroomPunishments/CourtroomPunishments';
+import HouseholdCaseHistory from './pages/HouseholdCaseHistory/HouseholdCaseHistory';
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
           <Route path="/dashboard/:uid/settings" element={(<Settings/>)} />
           <Route path="/dashboard/:uid/household-settings" element={(<HouseholdSettings/>)} />
           <Route path="/dashboard/:uid/household/:householdId/punishments" element={(<CourtroomPunishments/>)} />
+          <Route path="/dashboard/:uid/household/:householdId/history" element={(<HouseholdCaseHistory/>)} />
           <Route path="/case/new" element={<CaseReview/>} />
           <Route path="/case/:caseId/review" element={<CaseReview/>} />
           <Route path="/case/:caseId/waiting" element={<WaitingRoom/>} />
