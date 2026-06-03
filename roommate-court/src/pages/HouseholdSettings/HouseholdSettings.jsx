@@ -12,6 +12,40 @@ function HouseholdSettings() {
 	const [isAuthorized, setIsAuthorized] = useState(false);
 	const [isLoading, setIsLoading] = useState(true);
 	const [households, setHouseholds] = useState([]);
+	const [showJoinForm, setShowJoinForm] = useState(false);
+	const [joinCode, setJoinCode] = useState('');
+	const [joinError, setJoinError] = useState('');
+	const [joinSuccess, setJoinSuccess] = useState('');
+	const [isJoining, setIsJoining] = useState(false);
+
+	const hydrateHousehold = async (householdId) => {
+		const snap = await get(ref(rtdb, `households/${householdId}`));
+		if (!snap.exists()) return null;
+
+		const data = snap.val();
+		const memberIds = Object.keys(data.members || {});
+
+		const members = await Promise.all(
+			memberIds.map(async (memberId) => {
+				const memberSnap = await get(ref(rtdb, `users/${memberId}/name`));
+				return {
+					id: memberId,
+					name: memberSnap.exists() ? memberSnap.val() : memberId,
+				};
+			})
+		);
+
+		return {
+			id: householdId,
+			name: data.name || '',
+			sentencingSeverity: data.sentencingSeverity || 'moderate',
+			code: data.code || '',
+			members,
+			isSaving: false,
+			saveError: '',
+			saveSuccess: false,
+		};
+	};
 
 	useEffect(() => {
 		const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -28,34 +62,7 @@ function HouseholdSettings() {
 						: [];
 
 					const loaded = await Promise.all(
-						householdIds.map(async (householdId) => {
-							const snap = await get(ref(rtdb, `households/${householdId}`));
-							if (!snap.exists()) return null;
-
-							const data = snap.val();
-							const memberIds = Object.keys(data.members || {});
-
-							const members = await Promise.all(
-								memberIds.map(async (memberId) => {
-									const memberSnap = await get(ref(rtdb, `users/${memberId}/name`));
-									return {
-										id: memberId,
-										name: memberSnap.exists() ? memberSnap.val() : memberId,
-									};
-								})
-							);
-
-							return {
-								id: householdId,
-								name: data.name || '',
-								sentencingSeverity: data.sentencingSeverity || 'moderate',
-								code: data.code || '',
-								members,
-								isSaving: false,
-								saveError: '',
-								saveSuccess: false,
-							};
-						})
+						householdIds.map((householdId) => hydrateHousehold(householdId))
 					);
 
 					setHouseholds(loaded.filter(Boolean));
@@ -107,6 +114,62 @@ function HouseholdSettings() {
 		navigator.clipboard.writeText(code).catch(() => {});
 	};
 
+	const handleJoinHouseholdByCode = async (event) => {
+		event.preventDefault();
+		setJoinError('');
+		setJoinSuccess('');
+
+		const normalizedCode = joinCode.trim().toUpperCase();
+		if (!normalizedCode) {
+			setJoinError('Please enter a household code.');
+			return;
+		}
+
+		setIsJoining(true);
+
+		try {
+			const codeSnapshot = await get(ref(rtdb, `householdCodes/${normalizedCode}`));
+
+			if (!codeSnapshot.exists()) {
+				setJoinError('Household code not found. Please check and try again.');
+				return;
+			}
+
+			const householdId = codeSnapshot.val();
+			const existingMembershipSnapshot = await get(ref(rtdb, `households/${householdId}/members/${uid}`));
+
+			if (existingMembershipSnapshot.exists()) {
+				setJoinError('You are already a member of this household.');
+				return;
+			}
+
+			await update(ref(rtdb), {
+				[`households/${householdId}/members/${uid}`]: true,
+				[`users/${uid}/households/${householdId}`]: true
+			});
+
+			const joinedHousehold = await hydrateHousehold(householdId);
+
+			if (joinedHousehold) {
+				setHouseholds((prev) => {
+					if (prev.some((household) => household.id === householdId)) {
+						return prev;
+					}
+
+					return [...prev, joinedHousehold];
+				});
+			}
+
+			setJoinSuccess('Joined household successfully.');
+			setJoinCode('');
+			setShowJoinForm(false);
+		} catch {
+			setJoinError('Unable to join household. Please try again.');
+		} finally {
+			setIsJoining(false);
+		}
+	};
+
 	if (!isAuthorized || isLoading) return null;
 
 	return (
@@ -142,6 +205,42 @@ function HouseholdSettings() {
 					</Link>
 					<h1>Household Settings</h1>
 					<p className="hs-subtitle">Changes apply to all members of the household.</p>
+					<div className="hs-join-controls">
+						<button
+							type="button"
+							className="hs-join-toggle-btn"
+							onClick={() => {
+								setShowJoinForm((prev) => !prev);
+								setJoinError('');
+								setJoinSuccess('');
+							}}
+						>
+							Join Household by Code
+						</button>
+					</div>
+
+					{showJoinForm && (
+						<form className="hs-join-form" onSubmit={handleJoinHouseholdByCode}>
+							<label htmlFor="hsJoinCode">Household Code</label>
+							<input
+								id="hsJoinCode"
+								type="text"
+								value={joinCode}
+								onChange={(event) => setJoinCode(event.target.value)}
+								placeholder="e.g. ABC123"
+								maxLength={6}
+								autoCapitalize="characters"
+								required
+							/>
+
+							{joinError && <p className="hs-error">{joinError}</p>}
+							{joinSuccess && <p className="hs-join-success">{joinSuccess}</p>}
+
+							<button type="submit" className="hs-join-submit" disabled={isJoining}>
+								{isJoining ? 'Joining...' : 'Join'}
+							</button>
+						</form>
+					)}
 				</div>
 
 				{households.length === 0 && (

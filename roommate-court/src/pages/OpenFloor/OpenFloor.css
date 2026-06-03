@@ -32,6 +32,26 @@
   white-space: nowrap;
 }
 
+.case-defendant-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  max-width: 360px;
+}
+
+.case-defendant-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: 999px;
+  border: 1px solid rgba(106, 132, 170, 0.85);
+  background: rgba(106, 132, 170, 0.22);
+  color: #d6e4ff;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+}
+
 .case-id-label {
   font-size: 0.7rem;
   color: #6a84aa;
@@ -64,6 +84,12 @@
 
 .close-floor-btn:hover {
   background: #c0392b;
+}
+
+.floor-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 /* Body */

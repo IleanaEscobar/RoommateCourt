@@ -26,12 +26,30 @@
         ".read": "auth != null",
         ".write": "auth != null"
       }
-      },
-      "householdCodes": {
-        "$code": {
-          ".read": "auth != null",
-          ".write": "auth != null && !data.exists()"
+    },
+    "casePresence": {
+      "$caseId": {
+        ".read": "auth != null && (root.child('cases').child($caseId).child('users').child(auth.uid).exists() || root.child('households').child(root.child('cases').child($caseId).child('householdId').val()).child('members').child(auth.uid).exists())",
+        "$uid": {
+          ".write": "auth != null && auth.uid === $uid && (root.child('cases').child($caseId).child('users').child(auth.uid).exists() || root.child('households').child(root.child('cases').child($caseId).child('householdId').val()).child('members').child(auth.uid).exists())",
+          ".validate": "newData.val() === true"
         }
       }
+    },
+    "caseVotes": {
+      "$caseId": {
+        ".read": "auth != null && (root.child('cases').child($caseId).child('users').child(auth.uid).exists() || root.child('households').child(root.child('cases').child($caseId).child('householdId').val()).child('members').child(auth.uid).exists())",
+        "$uid": {
+          ".write": "auth != null && auth.uid === $uid && (root.child('cases').child($caseId).child('users').child(auth.uid).exists() || root.child('households').child(root.child('cases').child($caseId).child('householdId').val()).child('members').child(auth.uid).exists())",
+          ".validate": "newData.hasChildren(['verdict', 'name', 'createdAt']) && newData.child('verdict').isString() && newData.child('name').isString()"
+        }
+      }
+    },
+    "householdCodes": {
+      "$code": {
+        ".read": "auth != null",
+        ".write": "auth != null && !data.exists()"
+      }
+    }
   }
 }

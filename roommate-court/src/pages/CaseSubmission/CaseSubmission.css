@@ -104,6 +104,60 @@
 	transform: translateY(-1px);
 }
 
+.case-household-select {
+	min-height: 52px;
+	padding: 12px 14px;
+	border-radius: 16px;
+	border: 1px solid #d7c1a6;
+	background: #fff;
+	font: inherit;
+	line-height: 1.4;
+	color: #2a2118;
+	transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.case-household-select:focus {
+	outline: none;
+	border-color: var(--color-secondary-dark);
+	box-shadow: 0 0 0 4px #af621429;
+	transform: translateY(-1px);
+}
+
+.case-household-select:disabled {
+	opacity: 0.7;
+	cursor: not-allowed;
+}
+
+.case-helper-text {
+	font-size: 0.9rem;
+	line-height: 1.45;
+	color: #7b6450;
+}
+
+.case-roommates-picker {
+	display: grid;
+	gap: 10px;
+	padding: 4px 0;
+}
+
+.case-roommate-option {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	padding: 10px 12px;
+	border-radius: 12px;
+	background: #fff;
+	border: 1px solid rgba(126, 93, 54, 0.14);
+	font-weight: 600;
+	color: #2a2118;
+}
+
+.case-roommate-option input {
+	width: 16px;
+	height: 16px;
+	accent-color: var(--color-secondary-dark);
+}
+
 .case-question-card textarea::placeholder {
 	color: #9b8c7c;
 }
