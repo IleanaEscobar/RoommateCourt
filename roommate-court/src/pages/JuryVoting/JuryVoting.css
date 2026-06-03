@@ -206,6 +206,48 @@
   color: #8898b5;
 }
 
+.ai-opinion-panel {
+  margin-top: 22px;
+  padding: 18px;
+  border-radius: 14px;
+  border: 1px solid #e5ebf7;
+  background: linear-gradient(180deg, #f8fbff 0%, #eef4ff 100%);
+  display: grid;
+  gap: 12px;
+}
+
+.ai-opinion-header h3 {
+  margin: 0;
+  font-size: 0.95rem;
+  color: var(--color-primary);
+}
+
+.ai-opinion-header p {
+  margin: 4px 0 0;
+  font-size: 0.84rem;
+  color: #5a6a8a;
+}
+
+.ai-opinion-error {
+  margin: 0;
+  font-size: 0.88rem;
+  color: var(--color-danger-dark);
+  background: #fff0ef;
+  border: 1px solid #f1b6b2;
+  border-radius: 8px;
+  padding: 10px 12px;
+}
+
+.ai-opinion-result {
+  white-space: pre-wrap;
+  line-height: 1.65;
+  color: #24324f;
+  background: #ffffff;
+  border: 1px solid #dce5f8;
+  border-radius: 10px;
+  padding: 14px 16px;
+}
+
 /* ── Verdict Panel ── */
 .verdict-panel {
   width: 100%;

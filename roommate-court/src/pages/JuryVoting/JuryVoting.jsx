@@ -3,6 +3,7 @@ import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { onAuthStateChanged } from 'firebase/auth';
 import { get, onValue, ref, serverTimestamp, set } from 'firebase/database';
 import { auth, rtdb } from '../../firebase';
+import { generateJuryOpinion } from '../../utils/geminiService';
 import './JuryVoting.css';
 import CourtButton from '../../components/CourtButton/CourtButton';
 
@@ -39,6 +40,10 @@ function JuryVoting() {
   const [votesByUid, setVotesByUid] = useState({});
   const [currentUser, setCurrentUser] = useState(null);
   const [participants, setParticipants] = useState([]);
+  const [householdSeverity, setHouseholdSeverity] = useState('moderate');
+  const [aiOpinion, setAiOpinion] = useState('');
+  const [isLoadingOpinion, setIsLoadingOpinion] = useState(false);
+  const [opinionError, setOpinionError] = useState('');
   const [caseData, setCaseData] = useState({
     title: 'Untitled Case',
     plaintiff: 'Plaintiff',
@@ -126,9 +131,18 @@ function JuryVoting() {
         }, {});
 
         const parties = resolveCaseParties(caseInfo, currentUser.uid, state?.uid, memberProfiles);
+        let resolvedHouseholdSeverity = 'moderate';
+
+        if (caseInfo.householdId) {
+          const householdSeveritySnapshot = await get(ref(rtdb, `households/${caseInfo.householdId}/sentencingSeverity`));
+          if (householdSeveritySnapshot.exists()) {
+            resolvedHouseholdSeverity = householdSeveritySnapshot.val() || 'moderate';
+          }
+        }
 
         if (isMounted) {
           setParticipants(memberProfilesArray);
+          setHouseholdSeverity(resolvedHouseholdSeverity);
           setCaseData({
             title: caseInfo.title || 'Untitled Case',
             plaintiff: parties.plaintiffName,
@@ -199,6 +213,29 @@ function JuryVoting() {
     }).catch(() => {
       setError('Unable to save your vote right now. Please try again.');
     });
+  };
+
+  const handleGetAIOpinion = async () => {
+    setOpinionError('');
+    setAiOpinion('');
+    setIsLoadingOpinion(true);
+
+    try {
+      const opinion = await generateJuryOpinion({
+        caseTitle: caseData.title,
+        plaintiffName: caseData.plaintiff,
+        defendantName: caseData.defendant,
+        householdSeverity,
+        verdictCounts: tally,
+        totalVoters,
+      });
+
+      setAiOpinion(opinion);
+    } catch (geminiError) {
+      setOpinionError(geminiError.message || 'Unable to get an AI opinion right now.');
+    } finally {
+      setIsLoadingOpinion(false);
+    }
   };
 
   const handleReturnToDashboard = () => {
@@ -326,6 +363,18 @@ function JuryVoting() {
           <p className="voting-progress">
             {votes.length} of {totalVoters} roommates have voted
           </p>
+        </div>
+
+        <div className="ai-opinion-panel">
+          <div className="ai-opinion-header">
+            <h3>AI Opinion</h3>
+            <p>Uses the household sentencing severity: {householdSeverity}</p>
+          </div>
+          <CourtButton variant="secondary" onClick={handleGetAIOpinion} disabled={isLoadingOpinion}>
+            {isLoadingOpinion ? 'Asking Gemini...' : 'Get AI Opinion'}
+          </CourtButton>
+          {opinionError && <p className="ai-opinion-error">{opinionError}</p>}
+          {aiOpinion && <div className="ai-opinion-result">{aiOpinion}</div>}
         </div>
 
         <CourtButton variant="secondary" onClick={handleReturnToDashboard}>
