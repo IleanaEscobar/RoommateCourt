@@ -376,12 +376,9 @@ function CaseSubmission() {
 					createdAt: serverTimestamp()
 				},
 				[`caseSubmissions/${caseId}`]: caseSubmissionPayload,
-				[`users/${uid}/cases/${caseId}`]: true
+				[`users/${uid}/cases/${caseId}`]: true,
+				[`households/${selectedHousehold.id}/cases/${caseId}`]: true
 			};
-
-			Object.keys(caseUsers).forEach((memberId) => {
-				updates[`users/${memberId}/cases/${caseId}`] = true;
-			});
 
 			await update(ref(rtdb), updates);
 
