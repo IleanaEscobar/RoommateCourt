@@ -85,11 +85,11 @@ function HouseholdCaseHistory() {
 						return;
 					}
 
-					const userCasesSnapshot = await get(ref(rtdb, `users/${uid}/cases`));
-					const userCaseIds = userCasesSnapshot.exists() ? Object.keys(userCasesSnapshot.val()) : [];
+					const householdCasesSnapshot = await get(ref(rtdb, `households/${householdId}/cases`));
+					const householdCaseIds = householdCasesSnapshot.exists() ? Object.keys(householdCasesSnapshot.val()) : [];
 
 					const caseEntries = await Promise.all(
-						userCaseIds.map(async (caseId) => {
+						householdCaseIds.map(async (caseId) => {
 							const caseSnapshot = await get(ref(rtdb, `cases/${caseId}`));
 							if (!caseSnapshot.exists()) {
 								return null;
