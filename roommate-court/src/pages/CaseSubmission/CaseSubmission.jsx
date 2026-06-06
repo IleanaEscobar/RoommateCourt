@@ -1,3 +1,4 @@
+{/* might be some issues with submission here */}
 import React, { useEffect, useState } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
 import { get, push, ref, serverTimestamp, update } from 'firebase/database';
